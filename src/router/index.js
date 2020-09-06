@@ -6,6 +6,7 @@ import Contact from '../views/Contact.vue'
 import Profile from '../views/Profile.vue'
 import Login from '../views/Login.vue'
 import Registration from '../views/Registration.vue'
+import Forum from '../views/Forum.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
 		path: '/registration',
 		name: 'Registration',
 		component: Registration
+	},
+	{
+		path: '/forum',
+		name: 'Forum',
+		component: Forum
 	}
 ]
 
