@@ -10,26 +10,32 @@ const pool = mariadb.createPool({
      host: '127.0.0.1', 
      user:'root', 
      password: 'password',
-     connectionLimit: 5
+	 connectionLimit: 5,
+     database: 'groupmania'
 });
 async function asyncFunction() {
   let conn;
-  try {
+  try {	  
 	conn = await pool.getConnection();
-	const rows = await conn.query("SELECT 1 as val");
+	const rows = await conn.query("SELECT * FROM users", function(error, rows, fields) {
+		if(!!error) {
+			console.log('Error in query');
+		} else {
+			//parse with your rows and fields
+			console.log('successful query');
+		}
+	});
 	console.log('Successfully connected to MariaDB!');
 	console.log(rows); //[ {val: 1}, meta: ... ]
-	const res = await conn.query("INSERT INTO myTable value (?, ?)", [1, "mariadb"]);
-	console.log(res); // { affectedRows: 1, insertId: 1, warningStatus: 0 }
-
   } catch (err) {
 	console.log('Unable to connect to MariaDB!');
+	console.log(err);
 	throw err;
   } finally {
 	if (conn) return conn.end();
   }
 }
-
+asyncFunction();
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
