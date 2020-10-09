@@ -13,8 +13,6 @@ async function testingConnection() {
 			console.log('successful query');
 		}
 	});
-	console.log('Successfully connected to MariaDB!');
-	console.log(rows); //[ {val: 1}, meta: ... ]
   } catch (err) {
 	console.log('Unable to connect to MariaDB!');
 	console.log(err);

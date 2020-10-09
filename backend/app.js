@@ -3,7 +3,18 @@ const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
 
+const db = require('./connection')
+
 const app = express();
+
+db
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.')
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err)
+  })
 
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -12,8 +23,10 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use('/api/auth', userRoutes);
 
 app.use(bodyParser.json());
+
+app.use('/api/auth', userRoutes);
+
 
 module.exports = app;
