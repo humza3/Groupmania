@@ -1,6 +1,6 @@
 <template>
   <div class="registration">
-    <h1>This is a sign up page</h1>
+    <h1>This is a sign up page hello</h1>
 	<form>
 		<div class="container">
 			<label for="email"><b>Email Address: </b></label>
@@ -18,54 +18,57 @@
 			<label for="password"><b>Re-Enter Password: </b></label>
 			<input type="password" placeholder="Enter Password" id="repassword" name="repassword" required>
 			<br>
-			<button type="submit">Sign Up</button>    
+			<button type="submit" v-on:click="signup" >Sign Up</button>    
 		</div>
 	</form>
   </div>
 </template>
-
+//connect signup button to form
 <script>
 export default {
     name: 'signup',
     data() {
         return {
             email: null,
-            reg: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-            lastname: null,
-            firstname: null,
+            reg: /\S+@\S+\.\S+/,
+            lastName: null,
+            firstName: null,
             password: null
         } 
     },
+	mounted: function(){
+		console.log('load');
+	},
     methods: {
-        checkForm: function (e) {
-        
+        checkForm() {
         if (!this.reg.test(this.email)) {
-            console.log('Enter a valid email')
-            return false
+            console.log('Enter a valid email');
+            return false;
         }
-        if (!this.lastname) {
-            console.log('name required')
-            return false
+        if (!this.lastName) {
+            console.log('name required');
+            return false;
         }
-        if (!this.firstname) {
-            console.log('name required')
-            return false
+        if (!this.firstName) {
+            console.log('name required');
+            return false;
         }
         if (!this.password) {
-            console.log('password')
-            return false
+            console.log('password');
+            return false;
         }
-        if (this.email && this.lastname && this.firstname && this.password) {
-            return true
+        if (this.email && this.lastName && this.firstName && this.password) {
+            return true;
         }
-        e.preventDefault()   
         },
-        signup() {  
+        signup: function (e) {  			
+			e.preventDefault();  
+			console.log('console log');
             if (this.checkForm()) {
             this.$http.post('http://localhost:3000/api/auth/signup', {
                 email: this.email,
-                lastname: this.lastname,
-                firstname: this.firstname,
+                lastname: this.lastName,
+                firstname: this.firstName,
                 password: this.password
             })
             .then((response) => {
@@ -76,6 +79,6 @@ export default {
                 console.log(error)
             })}
         }
-    }
+	},
 }
 </script>

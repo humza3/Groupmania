@@ -1,8 +1,8 @@
-const {Model} = require("sequelize");
+const Sequelize = require("sequelize");
+const connection = require('../connection');
 
-module.exports = (sequelize, Sequelize) => {
-  const User = sequelize.define('user', {
-    userId: {
+const user = connection.define('user', {
+	userId: {
       type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
       allowNull: false,
       primaryKey: true,
@@ -32,6 +32,6 @@ module.exports = (sequelize, Sequelize) => {
     },
   }, {
     timestamps: false
-  })
-  return User;
-}
+})
+
+module.exports = user;
