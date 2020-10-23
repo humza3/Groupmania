@@ -1,38 +1,40 @@
 const Sequelize = require('sequelize');
 const connection = require('../connection');
 
-const comment = connection.define("comments", {
-    message_id: {
+const article = connection.define("articles", {
+    article_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
-        allowNull: false
-    },
-	article_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false
+        autoIncrement: true
     },
 	employee_id: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        primaryKey: true,
+        autoIncrement: true
+    },
+    title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
     },
     content: {
         type: Sequelize.STRING,
-        autoIncrement: true
-    },
-    media: {
-        type: Sequelize.STRING,
         allowNull: false
     },
-    date: {
-        type: Sequelize.DATETIME,
+    name: {
+        type: Sequelize.STRING,
         allowNull: false
     },
 	unread:{
 		type: Sequlize.INTEGER,
 		allowNull: false
-	}
+	},
+    date: {
+        type: Sequelize.DATETIME,
+        allowNull: false        
+    }
 },  {
     timestamps: false
 })
 
-module.exports = comment;
+module.exports = article

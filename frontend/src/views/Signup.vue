@@ -18,7 +18,7 @@
 			<label for="password"><b>Re-Enter Password: </b></label>
 			<input type="password" placeholder="Enter Password" id="repassword" name="repassword" required>
 			<br>
-			<button type="submit" v-on:click="signup" >Sign Up</button>    
+			<button type="submit" v-on:submit="signup" >Sign Up</button>    
 		</div>
 	</form>
   </div>
@@ -65,14 +65,15 @@ export default {
 			e.preventDefault();  
 			console.log('console log');
             if (this.checkForm()) {
-            this.$http.post('http://localhost:3000/api/auth/signup', {
+			console.log(this.email);
+            this.$http.post('http://localhost:3000/api/auth/signup', {				
                 email: this.email,
                 lastname: this.lastName,
                 firstname: this.firstName,
                 password: this.password
             })
             .then((response) => {
-                localStorage.setItem('userID', JSON.stringify(response.data.userId))
+                localStorage.setItem('EmployeeID', JSON.stringify(response.data.employeeId))
                 this.$store.dispatch('checkIfLogged')
             })
             .catch((error) => {
