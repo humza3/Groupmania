@@ -18,7 +18,7 @@
 			<label for="password"><b>Re-Enter Password: </b></label>
 			<input type="password" placeholder="Enter Password" id="repassword" name="repassword" required>
 			<br>
-			<button type="submit" v-on:submit="signup" >Sign Up</button>    
+			<button type="submit" v-on:submit="signup" id="submit">Sign Up</button>    
 		</div>
 	</form>
   </div>
@@ -83,3 +83,25 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+form {
+    display: flex;
+    flex-direction: column;
+}
+form input {
+    max-width: 15em;
+    align-self: center;
+    margin-bottom: 1em;
+    
+}
+form label {
+    margin: 0.5em;
+}
+#submit {
+    margin-top: 2em;
+    width: 10em;
+    min-height: 2em;
+    align-self: center;
+}
+</style>
