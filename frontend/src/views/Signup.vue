@@ -3,20 +3,20 @@
     <h1>This is a sign up page hello</h1>
 	<form>
 		<div class="container">
-			<label for="email"><b>Email Address: </b></label>
-			<input type="text" placeholder="Enter Email Address" id="email" name="email" required>
+			<label for="Email"><b>Email Address: </b></label>
+			<input type="text" placeholder="Enter Email Address" id="Email" name="Email" required>
 			<br>
-			<label for="firstName"><b>First Name: </b></label>
-			<input type="text" placeholder="Enter First Name" id="firstName" name="firstName" required>
+			<label for="FirstName"><b>First Name: </b></label>
+			<input type="text" placeholder="Enter First Name" id="FirstName" name="FirstName" required>
 			<br>
-			<label for="lastName"><b>Last Name: </b></label>
-			<input type="text" placeholder="Enter Last Name" id="lastName" name="lastName" required>
+			<label for="LastName"><b>Last Name: </b></label>
+			<input type="text" placeholder="Enter Last Name" id="LastName" name="LastName" required>
 			<br>
-			<label for="password"><b>Password: </b></label>
-			<input type="password" placeholder="Enter Password" id="password" name="password" required>
+			<label for="Password"><b>Password: </b></label>
+			<input type="Password" placeholder="Enter Password" id="Password" name="Password" required>
 			<br>
-			<label for="password"><b>Re-Enter Password: </b></label>
-			<input type="password" placeholder="Enter Password" id="repassword" name="repassword" required>
+			<label for="Password"><b>Re-Enter Password: </b></label>
+			<input type="Password" placeholder="Enter Password" id="rePassword" name="rePassword" required>
 			<br>
 			<button type="submit" v-on:submit="signup" id="submit">Sign Up</button>    
 		</div>
@@ -29,11 +29,11 @@ export default {
     name: 'signup',
     data() {
         return {
-            email: null,
+            Email: null,
             reg: /\S+@\S+\.\S+/,
-            lastName: null,
-            firstName: null,
-            password: null
+            LastName: null,
+            FirstName: null,
+            Password: null
         } 
     },
 	mounted: function(){
@@ -41,23 +41,23 @@ export default {
 	},
     methods: {
         checkForm() {
-        if (!this.reg.test(this.email)) {
-            console.log('Enter a valid email');
+        if (!this.reg.test(this.Email)) {
+            console.log('Enter a valid Email');
             return false;
         }
-        if (!this.lastName) {
+        if (!this.LastName) {
             console.log('name required');
             return false;
         }
-        if (!this.firstName) {
+        if (!this.FirstName) {
             console.log('name required');
             return false;
         }
-        if (!this.password) {
-            console.log('password');
+        if (!this.Password) {
+            console.log('Password');
             return false;
         }
-        if (this.email && this.lastName && this.firstName && this.password) {
+        if (this.Email && this.LastName && this.FirstName && this.Password) {
             return true;
         }
         },
@@ -65,12 +65,12 @@ export default {
 			e.preventDefault();  
 			console.log('console log');
             if (this.checkForm()) {
-			console.log(this.email);
+			console.log(this.Email);
             this.$http.post('http://localhost:3000/api/auth/signup', {				
-                email: this.email,
-                lastname: this.lastName,
-                firstname: this.firstName,
-                password: this.password
+                Email: this.Email,
+                LastName: this.LastName,
+                FirstName: this.FirstName,
+                Password: this.Password
             })
             .then((response) => {
                 localStorage.setItem('EmployeeID', JSON.stringify(response.data.employeeId))

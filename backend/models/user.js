@@ -2,7 +2,7 @@ const Sequelize = require("sequelize");
 const connection = require('../connection');
 
 const user = connection.define('user', {
-	userId: {
+	employee_id: {
       type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
       allowNull: false,
       primaryKey: true,

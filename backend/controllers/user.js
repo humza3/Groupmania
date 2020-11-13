@@ -9,15 +9,17 @@ exports.signup = (req, res, next) => {
     (hash) => {
       const user = new User({
         email: req.body.email,
-		lastname: req.body.lastName,
-		firstname: req.body.firstName,
+		lastname: req.body.lastname,
+		firstname: req.body.firstname,
 		password: hash,
 		admin: 0
       });
+	  //console.log(user);
       user.save().then(
         () => {
           res.status(201).json({
             message: 'User added successfully!'
+			//create user table
           });
         }
       ).catch(
