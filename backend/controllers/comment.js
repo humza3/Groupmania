@@ -22,11 +22,11 @@ exports.getAllComments = (req, res) => {
 exports.createComment = (req, res) => {
     article.findOne({ where : {title: req.params.title}})
     .then(article => {
-        user.findOne({where : {id: req.body.userID}})
+        user.findOne({where : {id: req.body.employee_id}})
         .then(user => {
             comment.create({
                 article_id: article.article_id,
-                author_id: req.body.userID,
+                empoyee_id: req.body.empoyee_id,
                 author_name: user.firstname + ' ' + user.lastname,
                 content: req.body.content,
                 createdAt: Date.now()})
