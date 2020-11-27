@@ -25,62 +25,43 @@
 </template>
 //connect signup button to form
 <script>
+const axios = require('axios');
+
 export default {
     name: 'signup',
     data() {
         return {
-            email: null,
-            reg: /\S+@\S+\.\S+/,
-            lastname: null,
-            firstname: null,
-            password: null
-        } 
+			email: "",
+			lastname: "",
+			firstname: "",
+			password: ""
+        }; 
     },
 	mounted: function(){
 		console.log('load');
 	},
     methods: {
-        checkForm() {
-        if (!this.reg.test(this.email)) {
-            console.log('Enter a valid Email');
-            return false;
-        }
-        if (!this.lastname) {
-            console.log('name required');
-            return false;
-        }
-        if (!this.firstname) {
-            console.log('name required');
-            return false;
-        }
-        if (!this.password) {
-            console.log('password');
-            return false;
-        }
-        if (this.email && this.lastname && this.firstname && this.password) {
-            return true;
-        }
-        },
-        signup: function (e) {  			
-			e.preventDefault();  
-			alert('console log');
-            if (this.checkForm()) {
+		signup: function(e) {  
+			e.preventDefault();
+			this.email = document.getElementById('email').value;
+			this.firstname = document.getElementById('firstname').value;
+			this.lastname = document.getElementById('lastname').value;
+			this.password = document.getElementById('password').value;
 			console.log(this.email);
-            this.$http.post('http://localhost:3000/api/auth/signup', {				
-                Email: this.email,
-                LastName: this.lastname,
-                FirstName: this.firstname,
-                Password: this.password
-            })
-            .then((response) => {
-                localStorage.setItem('employee_id', JSON.stringify(response.data.employee_id))
-                this.$store.dispatch('checkIfLogged')
-            })
-            .catch((error) => {
-                console.log(error)
-            })}
-        }
-	},
+			axios.post('http://localhost:3000/api/auth/signup', {	
+				email: this.email,
+				lastname: this.lastname,
+				firstname: this.firstname,
+				password: this.password					
+			})
+			.then(response => {
+				console.log(response)
+			})
+			.catch((error) => {
+				console.log(error)
+			})
+		}
+	}
 }
 </script>
 

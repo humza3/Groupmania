@@ -22,7 +22,7 @@ const user = connection.define('user', {
       allowNull: false
     },
     password: {
-      type: Sequelize.STRING(15),
+      type: Sequelize.STRING(100),
       allowNull: false
     },
     admin: {
