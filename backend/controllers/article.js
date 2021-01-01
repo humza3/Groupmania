@@ -18,19 +18,14 @@ exports.getOneArticle = (req, res) => {
 }
 
 exports.createArticle = (req, res) => {
-			user.findOne({ where: {article_id: req.params.article_id}})
-		.then(user => 
-			article.create({
-				content: req.body.content,
-				employee_id: 1,
-				unread: 0,
-				date: Date.now()
-			})
-			.then(() => res.status(201).json({message: 'Post submitted'}))
-			.catch(error => res.status(500).json({error}))
-        }       
-    })
-    .catch(error => res.status(500).json({error}))
+		article.create({
+			content: req.body.content,
+			employee_id: req.body.employee_id,
+			unread: 0,
+			date: Date.now()
+		})
+		.then(() => res.status(201).json({message: 'Post submitted'}))
+		.catch(error => res.status(500).json({error}))
 }
 
 exports.getUserArticles = (req, res) => {

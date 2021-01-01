@@ -9,19 +9,18 @@ const article = connection.define("article", {
     },
 	employee_id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+		allowNull: false
     },
     content: {
         type: Sequelize.STRING,
         allowNull: false
     },
 	unread:{
-		type: Sequlize.INTEGER,
+		type: Sequelize.INTEGER,
 		allowNull: false
 	},
     date: {
-        type: Sequelize.DATETIME,
+        type: Sequelize.literal("CURRENT_TIMESTAMP"),
         allowNull: false        
     }
 },  {

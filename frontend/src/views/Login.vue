@@ -29,8 +29,6 @@ export default {
     methods: {
         login: function(e) {
 			e.preventDefault();
-			this.email = document.getElementById('email').value;
-			this.password = document.getElementById('password').value;
             if (this.email != "" && this.password !="") {
                 axios.post('http://localhost:3000/api/auth/login', {
 					email: this.email,

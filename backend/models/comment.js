@@ -24,11 +24,11 @@ const comment = connection.define("comments", {
         allowNull: false
     },
     date: {
-        type: Sequelize.DATETIME,
+        type: Sequelize.literal("CURRENT_TIMESTAMP"),
         allowNull: false
     },
 	unread:{
-		type: Sequlize.INTEGER,
+		type: Sequelize.INTEGER,
 		allowNull: false
 	}
 },  {

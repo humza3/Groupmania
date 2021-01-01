@@ -43,10 +43,6 @@ export default {
     methods: {
 		signup: function(e) {  
 			e.preventDefault();
-			this.email = document.getElementById('email').value;
-			this.firstname = document.getElementById('firstname').value;
-			this.lastname = document.getElementById('lastname').value;
-			this.password = document.getElementById('password').value;
 			console.log(this.email);
 			axios.post('http://localhost:3000/api/auth/signup', {	
 				email: this.email,

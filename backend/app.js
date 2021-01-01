@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
+const articleRoutes = require('./routes/article');
+//const commentRoutes = require('./routes/comment');
 
 const db = require('./connection')
 
@@ -27,6 +29,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
+app.use('/api/', articleRoutes);
+//app.use('/api/', commentRoutes);
 
 
 module.exports = app;

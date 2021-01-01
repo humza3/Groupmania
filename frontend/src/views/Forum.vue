@@ -53,17 +53,19 @@ export default {
     data() {
         return {
             content: "",
-			employee_id: localStorage.getItem('employee_id')
+			employee_id: localStorage.getItem('employee_id'),
+			token: localStorage.getItem('token')
         }   
     },
     methods: {
         forumPost: function(e) {
 			e.preventDefault();
-			this.content = document.getElementById('content').value;
             if (this.content != "") {
-                axios.post('http://localhost:3000/api/auth/submitArticle/${this.employee_id}', {
+                axios.post('http://localhost:3000/api/submitArticle/${this.employee_id}', {
 					content: this.content
-                })
+                }, {
+					authorization: this.token,
+				})
                 .then((response) => {
                     console.log(response);
                 })
