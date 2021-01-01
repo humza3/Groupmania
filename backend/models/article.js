@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const connection = require('../connection');
 
-const article = connection.define("articles", {
+const article = connection.define("article", {
     article_id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -12,16 +12,7 @@ const article = connection.define("articles", {
         primaryKey: true,
         autoIncrement: true
     },
-    title: {
-        type: Sequelize.STRING,
-        allowNull: false,
-        unique: true
-    },
     content: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    name: {
         type: Sequelize.STRING,
         allowNull: false
     },

@@ -34,13 +34,51 @@
 				Aliquam pulvinar urna mi, sit amet tincidunt elit auctor sed. Curabitur dapibus magna
 				purus, eu auctor ligula aliquam at.</p>
 			</div>			
-		</div>				
-		<textarea id="make-post" name="post" rows="5" >
-			type your post
-		</textarea>
-		<button>Submit Post</button>
+		</div>
+		<form>
+			<div class="container">		
+				<textarea id="content" name="content" v-model="content" placeholder="Type your post" rows="5" required>
+					
+				</textarea>
+				<button type="submit" v-on:click="forumPost" id="submit">Submit Post</button>
+			</div>
+		</form>
 	</div>
 </template>
+<script>
+const axios = require('axios');
+
+export default {
+    name: 'forumPost',
+    data() {
+        return {
+            content: "",
+			employee_id: localStorage.getItem('employee_id')
+        }   
+    },
+    methods: {
+        forumPost: function(e) {
+			e.preventDefault();
+			this.content = document.getElementById('content').value;
+            if (this.content != "") {
+                axios.post('http://localhost:3000/api/auth/submitArticle/${this.employee_id}', {
+					content: this.content
+                })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                 })
+            }
+            else {
+                console.log('make sure you enter text')
+            }
+        }
+           
+    }
+}
+</script>
 
 <style lang="scss">
 .forum {
@@ -69,7 +107,7 @@
 	grid-row: 1;
 	background-color:grey;
 }
-#make-post{
+#content{
 width: 100%;
 }
 

@@ -8,7 +8,6 @@ exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then(
     (hash) => {
       const user = new User({
-		employee_id: 1,
         email: req.body.email,
 		lastname: req.body.lastname,
 		firstname: req.body.firstname,
@@ -50,11 +49,11 @@ exports.login = (req, res, next) => {
             });
           }
           const token = jwt.sign(
-            { userId: user.employee_id },
+            { employee_id: user.employee_id },
             'RANDOM_TOKEN_SECRET',
             { expiresIn: '24h' });
           res.status(200).json({
-            userId: user.employee_id,
+            employee_id: user.employee_id,
             token: token
           });
         }

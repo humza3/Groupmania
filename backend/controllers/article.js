@@ -4,7 +4,7 @@ const comment = require('../models/comment')
 
 exports.getAllArticles = (req, res) => {
     article.findAll({order: [
-        ['createdAt', 'DESC']
+        ['date', 'DESC']
       ]})
     .then((articles) => res.status(200).json({articles}))
     .catch((error) => res.status(503).json({error}))
@@ -12,31 +12,22 @@ exports.getAllArticles = (req, res) => {
 
 
 exports.getOneArticle = (req, res) => {
-    article.findOne({ where: {title: req.params.title}})
+    article.findOne({ where: {article_id: req.params.article_id}})
     .then((article) => res.status(200).json({article}))
     .catch((error) => res.status(503).json({error}))
 }
 
 exports.createArticle = (req, res) => {
-    article.findOne({ where: {title: req.body.title} })
-    .then(articleExist => {
-        if (articleExist) {
-            return res.status(401).json({message: 'A post with this titel already exists'})
-        }
-        else {
-            user.findOne({ where: {id: req.params.id}})
-            .then(user => 
-                article.create({
-                    title: req.body.title,
-                    content: req.body.content,
-                    author_id: user.id,
-                    author_name: user.firstname + ' ' + user.lastname,
-                    createdAt: Date.now()
-                })
-                .then(() => res.status(201).json({message: 'Post submitted'}))
-                .catch(error => res.status(500).json({error}))
-            )
-            .catch((error) => res.status(503).json({error}))   
+			user.findOne({ where: {article_id: req.params.article_id}})
+		.then(user => 
+			article.create({
+				content: req.body.content,
+				employee_id: 1,
+				unread: 0,
+				date: Date.now()
+			})
+			.then(() => res.status(201).json({message: 'Post submitted'}))
+			.catch(error => res.status(500).json({error}))
         }       
     })
     .catch(error => res.status(500).json({error}))
@@ -44,9 +35,9 @@ exports.createArticle = (req, res) => {
 
 exports.getUserArticles = (req, res) => {
     article.findAll({ 
-        where : { author_id: req.params.id },
+        where : { employee_id: req.params.employee_id },
         order: [
-            ['createdAt', 'DESC']
+            ['date', 'DESC']
           ]
      })
     .then((articles) => res.status(200).json({articles}))
@@ -54,15 +45,7 @@ exports.getUserArticles = (req, res) => {
 }
 
 exports.deleteOneArticle = (req, res) => {
-    article.findOne({ where : { title: req.params.title }})
-    .then(article => {
-        comment.destroy({ where : { article_id: article.article_id }})
-        .then(() => {
-            article.destroy({ where : { title: req.params.title }})
-            .then(() => res.status(200).json({message: 'Post deleted!'}))
-            .catch(error => res.status(503).json(error))  
-        })
-        .catch(error => res.status(504).json(error))
-    })
-    .catch((error) => res.status(503).json({error}))       
+	article.destroy({ where : {article_id: req.params.article_id}})
+	.then(() => res.status(200).json({message: 'Post deleted!'}))
+	.catch(error => res.status(503).json(error))     
 }
