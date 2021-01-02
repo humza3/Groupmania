@@ -1,63 +1,54 @@
 <template>
   <div class="registration">
     <h1>This is a sign up page hello</h1>
-	<form>
+	<form @submit.prevent="signup">
 		<div class="container">
 			<label for="email"><b>Email Address: </b></label>
-			<input type="text" placeholder="Enter Email Address" id="email" name="email" required>
+			<input type="text" placeholder="Enter Email Address" id="email" v-model="email" name="email" required>
 			<br>
 			<label for="firstname"><b>First Name: </b></label>
-			<input type="text" placeholder="Enter First Name" id="firstname" name="firstname" required>
+			<input type="text" placeholder="Enter First Name" id="firstname" v-model="firstname" name="firstname" required>
 			<br>
 			<label for="lastname"><b>Last Name: </b></label>
-			<input type="text" placeholder="Enter Last Name" id="lastname" name="lastname" required>
+			<input type="text" placeholder="Enter Last Name" id="lastname" v-model="lastname" name="lastname" required>
 			<br>
 			<label for="password"><b>Password: </b></label>
-			<input type="Password" placeholder="Enter Password" id="password" name="password" required>
+			<input type="Password" placeholder="Enter Password" id="password" v-model="password" name="password" required>
 			<br>
 			<label for="repassword"><b>Re-Enter Password: </b></label>
-			<input type="Password" placeholder="Enter Password" id="repassword" name="repassword" required>
+			<input type="Password" placeholder="Enter Password" id="repassword" v-model="repassword" name="repassword" required>
 			<br>
-			<button type="submit" v-on:click="signup" id="submit">Sign Up</button>    
+			<button type="submit" id="submit">Sign Up</button>    
 		</div>
 	</form>
   </div>
 </template>
 //connect signup button to form
 <script>
-const axios = require('axios');
-
 export default {
-    name: 'signup',
-    data() {
+    data: function () {
         return {
 			email: "",
 			lastname: "",
 			firstname: "",
-			password: ""
+			password: "",
+			repassword: ""
         }; 
-    },
-	mounted: function(){
-		console.log('load');
-	},
+	},	
     methods: {
-		signup: function(e) {  
-			e.preventDefault();
-			console.log(this.email);
-			axios.post('http://localhost:3000/api/auth/signup', {	
-				email: this.email,
-				lastname: this.lastname,
-				firstname: this.firstname,
-				password: this.password					
-			})
-			.then(response => {
-				console.log(response)
-			})
-			.catch((error) => {
-				console.log(error)
-			})
-		}
-	}
+      signup(e) {
+		e.preventDefault();	
+        let data = {
+			email: this.email,
+			lastname: this.lastname,
+			firstname: this.firstname,
+			password: this.password
+        }			
+        this.$store.dispatch('signup', data)
+       .then(() => this.$router.push('/'))
+       .catch(err => console.log(err))
+      }
+    }
 }
 </script>
 
