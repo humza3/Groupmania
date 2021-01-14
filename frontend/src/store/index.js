@@ -35,7 +35,9 @@ export default new Vuex.Store({
       .then(resp => {
         const token = resp.data.token
         const user = resp.data.user
+		const employee_id = resp.data.employee_id
         localStorage.setItem('token', token)
+		localStorage.setItem('employee_id', employee_id)
         axios.defaults.headers.common['Authorization'] = token
         commit('auth_success', token, user)
         resolve(resp)
@@ -74,8 +76,7 @@ export default new Vuex.Store({
     delete axios.defaults.headers.common['Authorization']
     resolve()
   })
-}
-
+},
   },
   getters : {
 	isLoggedIn: state => !!state.token,
