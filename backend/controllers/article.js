@@ -4,7 +4,6 @@ const comment = require('../models/comment');
 
 exports.createArticle = (req, res, next) => {
 	const article = new Article({
-		article_id: 45,
 		content: req.body.content,
 		employee_id: req.body.employee_id,
 		unread: 0
@@ -66,7 +65,7 @@ exports.getUserArticles = (req, res) => {
     .catch((error) => res.status(503).json({error}))
 }
 
-exports.deleteOneArticle = (req, res) => {
+exports.deleteArticle = (req, res) => {
 	Article.destroy({ where : {article_id: req.params.article_id}})
 	.then(() => res.status(200).json({message: 'Post deleted!'}))
 	.catch(error => res.status(503).json(error))     
