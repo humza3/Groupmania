@@ -50,17 +50,16 @@ export default {
     data(){
         return {
             content: "",
-            employee_id: localStorage.getItem('employee_id'),
+            employee_id: parseInt(localStorage.getItem('employee_id')),
 			token:localStorage.getItem('token')
         }		
     },
     methods: {
         createArticle(){
-			let content = this.content
 			let employee_id = this.employee_id
-			let token = this.token
-			this.$http.post(`http://localhost:3000/api/auth/submitArticle/${employee_id}`, {headers: token,
-			content
+			this.$http.post(`http://localhost:3000/api/auth/submitArticle/${employee_id}`, {
+				employee_id: this.employee_id,
+				content: this.content
 			})
 			.catch(function (error) {
 				console.log(error)

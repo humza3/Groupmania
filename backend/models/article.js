@@ -1,11 +1,12 @@
-const Sequelize = require('sequelize');
-const connection = require('../connection');
+const Sequelize = require("sequelize");
+const connection = require("../connection");
 
 const article = connection.define("article", {
     article_id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+        type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
+		allowNull: false,
+		primaryKey: true,
+		autoIncrement: true
     },
 	employee_id: {
         type: Sequelize.INTEGER,
@@ -18,11 +19,7 @@ const article = connection.define("article", {
 	unread:{
 		type: Sequelize.INTEGER,
 		allowNull: false
-	},
-    date: {
-        type: Sequelize.literal("CURRENT_TIMESTAMP"),
-        allowNull: false        
-    }
+	}
 },  {
     timestamps: false
 })
