@@ -9,19 +9,23 @@ const article = connection.define("article", {
 		autoIncrement: true
     },
 	employee_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
 		allowNull: false
     },
     content: {
         type: Sequelize.STRING,
         allowNull: false
     },
-	unread:{
-		type: Sequelize.INTEGER,
-		allowNull: false
-	}
-},  {
-    timestamps: false
-})
+    link: {
+      type: Sequelize.STRING(150),
+      allowNull: true,
+    },
+	date: {
+      type: Sequelize.DATE,
+	  defaultValue: Sequelize.NOW,
+      allowNull: false,
+	}, 
+});
+
 
 module.exports = article

@@ -34,39 +34,81 @@
 				Aliquam pulvinar urna mi, sit amet tincidunt elit auctor sed. Curabitur dapibus magna
 				purus, eu auctor ligula aliquam at.</p>
 			</div>			
-		</div>
-		<form action="" method="post" @submit.prevent="createArticle">
-			<div class="container">		
-				<textarea id="content" name="content" v-model="content" placeholder="Type your post" rows="5" required>
-					
-				</textarea>
-				<button type="submit" id="submit">Submit Post</button>
-			</div>
-		</form>
-	</div>
+		</div>  
+      <form @submit.prevent="onSubmit">
+            <label for="title">Title of Post</label>
+            <input id="title" placeholder="title of your post" type="text" v-model="title" name="title" />
+          <br />
+            <label for="content">Share your thoughts</label>
+            <textarea
+              id="content"
+              placeholder="Write your message"
+              type="text"
+              v-model="content"
+              name="content"
+              aria-label="Write your message"
+              rows=5
+            />
+          <br />
+            <label for="link">Share a link</label>
+            <input
+              id="link"
+              placeholder="share a link"
+              type="url"
+              v-model="link"
+              name="link"
+              aria-label="share a link"
+            />  
+          <br />
+            <button
+              variant="info"
+              class="mb-2"
+              type="submit"
+              aria-label="Submit"
+              value="Submit"
+            >Submit</button>
+      </form>
+  </div>
 </template>
 <script>
+import axios from "axios";
 export default {
-    data(){
-        return {
-            content: "",
-            employee_id: parseInt(localStorage.getItem('employee_id')),
-			token:localStorage.getItem('token')
-        }		
+  name: "Article",
+  data: function () {
+    return {
+      title: "",
+      content: "",
+      link: "",
+    };
+  },
+  methods: {
+    onSubmit(event) {
+      const employee_id = localStorage.getItem("employee_id");
+      const token = window.localStorage.getItem("token");
+      axios.post(
+          "http://localhost:3000/api/articles",
+          {
+            title: this.title,
+            content: this.content,
+            link: this.link,
+            employee_id: employee_id,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          this.$emit("post-sent", response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      event.target.reset();
     },
-    methods: {
-        createArticle(){
-			let employee_id = this.employee_id
-			this.$http.post(`http://localhost:3000/api/auth/submitArticle/${employee_id}`, {
-				employee_id: this.employee_id,
-				content: this.content
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
-        }
-    }
-}
+  },
+};
 </script>
 
 <style lang="scss">

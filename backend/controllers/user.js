@@ -31,43 +31,105 @@ exports.signup = (req, res, next) => {
   );
 };
 
-exports.login = (req, res, next) => {
-  User.findOne({ email: req.body.email }).then(
-    (user) => {
-      if (!user) {
-        return res.status(401).json({
-          error: new Error('User not found!')
-        });
-      }
-      bcrypt.compare(req.body.password, user.password).then(
-        (valid) => {
-          if (!valid) {
-            return res.status(401).json({
-              error: new Error('Incorrect password!')
+exports.login = (req, res) => {
+  User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    })
+    .then(function (User) {
+      console.log(User.get({
+        plain: true
+      }))
+      bcrypt
+        .compare(req.body.password, User.password, function (err, result) {
+          if (result == true) {
+            res
+              .json({
+                firstname: User.firstName,
+				lastname: User.lastname,
+                employee_id: User.employee_id,
+                token: jwt.sign({
+                  employee_id: User.employee_id
+                }, 'RANDOM_TOKEN_SECRET', {
+                  expiresIn: "2h",
+                }),
+              })
+          } else {
+            res.status(401).json({
+              error: "Incorrect Password!",
             });
           }
-          const token = jwt.sign(
-            { employee_id: user.employee_id },
-            'RANDOM_TOKEN_SECRET',
-            { expiresIn: '24h' });
-          res.status(200).json({
-            employee_id: user.employee_id,
-            token: token
-          });
-        }
-      ).catch(
-        (error) => {
-          res.status(500).json({
-            error: error
-          });
-        }
-      );
-    }
-  ).catch(
-    (error) => {
+        })
+    })
+    .catch((error) =>
       res.status(500).json({
-        error: error
+        error,
+      })
+    );
+};
+
+exports.getUserAccount = (req, res) => {
+  User.findOne({
+      where: {
+        userId: req.params.id
+      },
+    })
+    .then((user) => {
+      res.status(200).send(user);
+    })
+    .catch((error) => {
+      res.status(404).send({
+        message: "User not found",
       });
-    }
-  );
+    });
+};
+
+
+exports.getAllUsers = (req, res) => {
+  User.findAll({
+      include: [{
+        model: db.posts,
+        include: [{
+          model: db.comments,
+        }]
+      }],
+
+    })
+    .then(users => {
+      res.json(users)
+
+    })
+    .catch((error) => {
+      res.status(404).send
+    })
 }
+
+
+exports.modifyUserAccount = (req, res) => {
+  User.update({
+      role: req.body.role
+    }, {
+      where: {
+        userId: req.params.id
+      }
+    })
+    .then(count => {
+      console.log('Rows updated' + count)
+    })
+};
+
+
+exports.deleteUserAccount = (req, res) => {
+  User.findOne({
+      where: {
+        userId: req.params.id
+      },
+    })
+    .then((user) => {
+      user.destroy();
+    })
+    .catch(error => res.status(400).json({
+      error
+    }))
+};

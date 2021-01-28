@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const connection = new Sequelize('groupmania', 'root', 'password', { dialect: 'mariadb'});
+const connection = new Sequelize('groupmania', 'root', 'password', { dialect: 'mysql'});
 
 async function testingConnection() {
   try {	  

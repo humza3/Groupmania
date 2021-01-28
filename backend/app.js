@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
-app.use('/api/auth', articleRoutes);
+app.use('/api/', articleRoutes);
 //app.use('/api/', commentRoutes);
 
 
