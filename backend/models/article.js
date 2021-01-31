@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const connection = require("../connection");
 
-const article = connection.define("article", {
+const article = connection.define("articles", {
     article_id: {
         type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
 		allowNull: false,
@@ -20,11 +20,16 @@ const article = connection.define("article", {
       type: Sequelize.STRING(150),
       allowNull: true,
     },
-	date: {
+	createdAt: {
       type: Sequelize.DATE,
 	  defaultValue: Sequelize.NOW,
       allowNull: false,
 	}, 
+	updatedAt: {
+	  type: Sequelize.DATE,
+	  defaultValue: Sequelize.NOW,
+      allowNull: false,
+	}
 });
 
 
