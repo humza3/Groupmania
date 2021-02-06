@@ -31,8 +31,9 @@ exports.createArticle = async (req, res) => {
 };
 
 exports.getAllArticles = (req, res) => {
+	console.log("find all controller");
     Article.findAll({order: [
-        ['date', 'DESC']
+        ['createdAt', 'DESC']
       ]})
     .then((articles) => res.status(200).json({articles}))
     .catch((error) => res.status(503).json({error}))
