@@ -19,18 +19,11 @@ const comment = connection.define("comments", {
         type: Sequelize.STRING,
         autoIncrement: true
     },
-    media: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    date: {
-        type: Sequelize.literal("CURRENT_TIMESTAMP"),
-        allowNull: false
-    },
-	unread:{
-		type: Sequelize.INTEGER,
-		allowNull: false
-	}
+    createdAt: {
+      type: Sequelize.DATE,
+	  defaultValue: Sequelize.NOW,
+      allowNull: false,
+    }
 },  {
     timestamps: false
 })

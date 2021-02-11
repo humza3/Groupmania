@@ -4,6 +4,7 @@
 			<div id="namepic">
 				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">
 				<h5>{{ article.employee_id }}</h5>
+				<p>{{ article.article_id }}</p>
 				<p>{{ article.createdAt }}</p>
 				<button variant="info" class="mb-2" type="open-reply" aria-label="Submit" value="Reply">Reply</button>
 			</div>
@@ -30,9 +31,11 @@
 				purus, eu auctor ligula aliquam at.</p>
 			</div>
 			<div id="comment" v-show="isHidden" >
-				<textarea id="comment-content" placeholder="Write your message" type="text" v-model="content" name="content" aria-label="Write your comment" rows=5 />
-				<button id="cancel-comment"  v-on:click="isHidden = false">Cancel</button> 
-				<button id="submit-comment">Reply</button>
+				<form id="comment-form" @submit.prevent="onCommentSubmit">
+					<textarea id="comment-content" placeholder="Write your message" type="text" v-model="comment" name="comment" aria-label="Write your comment" rows=5 />
+					<button id="cancel-comment"  v-on:click="isHidden = false">Cancel</button> 
+					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
+				</form>
 			</div>
 		</div>	
 	</article>
@@ -46,6 +49,7 @@ export default {
 		return {
 				articles: [],
 				isHidden: false,
+				comment: "",
 		};
 	},
 	methods: {
@@ -65,6 +69,31 @@ export default {
 				console.log(e);
 			});
 		},
+		onCommentSubmit(event) {
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");		
+			const article_id = localStorage.getItem("employee_id");
+		axios.post(
+          "http://localhost:3000/comments",
+          {
+			article_id: article_id,
+            comment: this.comment,
+            employee_id: employee_id,
+          },
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          this.$emit("post-sent", response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      event.target.reset();
+    }
 	},
 	mounted() {
 		this.retrieveArticles();
@@ -93,6 +122,11 @@ article {
 	width: 100%;
 	height: auto;
 }
+#comment-form{
+  margin:0;
+  padding:0;
+}
+
 #comment-content {
 	width: 100%;
 	-webkit-box-sizing: border-box;

@@ -26,9 +26,8 @@ exports.createComment = (req, res) => {
         .then(user => {
             comment.create({
                 article_id: article.article_id,
-                empoyee_id: req.body.empoyee_id,
-                author_name: user.firstname + ' ' + user.lastname,
-                content: req.body.content,
+                employee_id: req.body.employee_id,
+                comment: req.body.content,
                 createdAt: Date.now()})
             .then((comment) => res.status(200).json({comment}))
             .catch((error) => res.status(503).json({error}))
