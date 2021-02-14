@@ -12,6 +12,10 @@ const article = connection.define("articles", {
         type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
 		allowNull: false
     },
+	title: { 
+        type: Sequelize.STRING,
+        allowNull: false
+	},
     content: {
         type: Sequelize.STRING,
         allowNull: false

@@ -3,31 +3,28 @@ const user = require('../models/user');
 const comment = require('../models/comment');
 
 exports.createArticle = async (req, res) => {
-	try {
-		await Article.create({
-			content: req.body.content,
-			title: req.body.title,
-			link: req.body.link,
-			employee_id: req.body.employee_id,
-		});
-		console.log(Article);
-		Article.save().then(
-			() => {
-			  res.status(201).json({
-				message: 'Post added successfully!'
-				//create article table
-			  });
-			}
-		).catch(
-			(error) => {
-			  res.status(500).json({
+	const artResults = new Article({
+		content: req.body.content,
+		title: req.body.title,
+		link: req.body.link,
+		employee_id: req.body.employee_id,
+	});
+	console.log("create article: ", artResults);
+	artResults.save().then(
+		() => {
+			res.status(201).json({
+			message: 'Post added successfully!'
+			//create article table
+		  });
+		}
+	).catch(
+		(error) => {
+			console.log("first 500");
+			res.status(500).json({
 				error: error
-			  });
-			}
-		);
-	} catch (e) {
-		return res.status(500).send(e);
-  }
+			});			  
+		}
+	);
 };
 
 exports.getAllArticles = (req, res) => {

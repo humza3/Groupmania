@@ -3,6 +3,7 @@
     <h1>This is a user profile page</h1>	
 	<div id="profile-exerpt">
 		<img src="../assets/profile-pic.png" alt="Avatar">
+		<button variant="info" v-on:click="isHidden = true" class="mb-2" id="edit-prof" type="edit-prof" aria-label="Submit" value="edit-prof">Edit Profile</button>
 		<h2>John Doe</h2>
 		<h3>About Me:</h3>
 		<div id="profile-desc">
@@ -18,6 +19,13 @@
 			The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line
 			in section 1.10.32.</p>
 		</div>
+		<div id="prof-edit" v-show="isHidden" >
+			<form id="prof-form" @submit.prevent="onProfileSubmit">
+				<textarea id="profile-text" placeholder="Write your message" type="text" v-model="profile" name="profile" aria-label="About you" rows=5 />
+				<button id="cancel-prof"  v-on:click="isHidden = false">Cancel</button>
+				<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
+			</form>
+		</div>	
 	</div>
 	<div id="recent-posts">
 		<h2>My Recent Posts</h2>
@@ -43,6 +51,18 @@
 	</div>
   </div>
 </template>
+<script>
+export default {
+	el: '#comment',
+	data() {		
+		return {
+			isHidden: false,
+		};
+	}
+}
+
+</script>
+
 
 <style lang="scss">
 	.profile {
@@ -72,6 +92,21 @@
 			padding:10px 50px;
 		}
 		
+	}
+	#prof-edit {
+		width: 100%;
+		height: auto;
+	}
+	#prof-form{
+		margin:0;
+		padding:0;
+	}
+
+	#prof-content {
+		width: 100%;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
 	}
 	
 	#recent-posts {
