@@ -71,17 +71,18 @@ exports.login = (req, res) => {
 
 exports.getUserAccount = (req, res) => {
   User.findOne({
-      where: {
-        userId: req.params.id
-      },
+		where: {
+			employee_id: req.params.id
+		},
     })
     .then((user) => {
-      res.status(200).send(user);
+		res.status(200).send(user);
     })
     .catch((error) => {
-      res.status(404).send({
-        message: "User not found",
-      });
+		console.log("cannot find user");
+		res.status(404).send({
+			message: "User not found",
+		});
     });
 };
 
@@ -106,17 +107,48 @@ exports.getAllUsers = (req, res) => {
 }
 
 
-exports.modifyUserAccount = (req, res) => {
-  User.update({
-      role: req.body.role
-    }, {
-      where: {
-        userId: req.params.id
-      }
-    })
-    .then(count => {
-      console.log('Rows updated' + count)
-    })
+//update sauces with modifications
+exports.modifyUser = (req, res, next) => {
+	let user = new User({employee_id: req.params.id});
+	console.log("employee_id: ", req.params.id);
+	User.findOne({employee_id: req.params.id}).then(() => {
+			user = {
+				employee_id: req.body.user.employee_id,
+				firstname: req.body.user.firstname,
+				lastname: req.body.user.lastname,
+				profile: req.body.user.profile	
+			};	
+			User.update({employee_id: req.params.id}, user).then(
+					() => {
+						res.status(201).json({
+						message: 'User updated successfully!'
+					});
+					}
+			).catch(
+				(error) => {
+						res.status(400).json({
+						error: error
+					});
+				}	
+			);
+		}).catch((error) => {
+			console.log("cannot find and update user")
+			res.status(404).json({error: error});				
+		});	
+		console.log(user);
+	User.update({employee_id: req.params.id}).then(
+		() => {
+			res.status(201).json({
+				message: 'User updated successfully!'
+			});
+		}
+	).catch(
+		(error) => {
+			res.status(400).json({
+				error: error
+			});
+		}	
+	);
 };
 
 
