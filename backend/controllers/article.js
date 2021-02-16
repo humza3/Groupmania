@@ -42,27 +42,14 @@ exports.getOneArticle = (req, res) => {
     .then((article) => res.status(200).json({article}))
     .catch((error) => res.status(503).json({error}))
 }
-/*
-exports.createArticle = (req, res) => {
-	console.log("typeof employee id", typeof req.body.employee_id);
-		article.create({
-			content: req.body.content,
-			employee_id: req.body.employee_id,
-			unread: 0,
-			date: "string"
-		}).save()
-		.then(() => res.status(201).json({message: 'Post submitted'}))
-		.catch(error => res.status(500).json({error}))
-}
-*/
 
-
-exports.getUserArticles = (req, res) => {
+exports.getLastArticles = (req, res) => {	
     Article.findAll({ 
         where : { employee_id: req.params.employee_id },
         order: [
-            ['date', 'DESC']
-          ]
+            ['createdAt', 'DESC']
+		],	
+		limit: 5
      })
     .then((articles) => res.status(200).json({articles}))
     .catch((error) => res.status(503).json({error}))
