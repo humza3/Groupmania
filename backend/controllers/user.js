@@ -31,6 +31,7 @@ exports.signup = (req, res, next) => {
   );
 };
 
+
 exports.login = (req, res) => {
   User.findOne({
       where: {
@@ -107,17 +108,42 @@ exports.getAllUsers = (req, res) => {
 }
 
 
-//update sauces with modifications
 exports.modifyUser = (req, res, next) => {
+	console.log("im over here 1");
+	const user = new User({
+		employee_id: req.params.id,
+		profile: req.body.profile
+      });
+	console.log("this is what the user reads",  user)
+	user.update({admin : 0}, {where: {employee_id: req.params.id}}).then(
+		(user) => {
+			console.log("im over here 2");
+			res.status(201).json({
+				message: 'User updated successfully!'
+			});
+			console.log("im over here 3");
+		}
+	).catch(
+		(error) => {
+			console.log("im over here 4");
+			res.status(400).json({
+				error: error
+			});
+		}	
+	);
+};
+//update sauces with modifications
+/*exports.modifyUser = (req, res, next) => {
 	let user = new User({employee_id: req.params.id});
 	console.log("employee_id: ", req.params.id);
-	User.findOne({employee_id: req.params.id}).then(() => {
+	User.findOne({ where: {employee_id: req.params.id}}).then(() => {
 			user = {
 				employee_id: req.body.user.employee_id,
 				firstname: req.body.user.firstname,
 				lastname: req.body.user.lastname,
 				profile: req.body.user.profile	
 			};	
+			console.log("WHAT SOES USER MEAN?? ", user);
 			User.update({employee_id: req.params.id}, user).then(
 					() => {
 						res.status(201).json({
@@ -149,7 +175,7 @@ exports.modifyUser = (req, res, next) => {
 			});
 		}	
 	);
-};
+};*/
 
 
 exports.deleteUserAccount = (req, res) => {
