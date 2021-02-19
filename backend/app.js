@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const userRoutes = require('./routes/user');
 const articleRoutes = require('./routes/article');
+const messagesRoutes = require('./routes/readmessages');
 
 const db = require('./connection')
 
@@ -29,6 +30,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
 app.use('/api/', articleRoutes);
+app.use('/api/', messagesRoutes);
 
 
 module.exports = app;

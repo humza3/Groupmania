@@ -3,6 +3,9 @@
 		<div class="article" :key="i" v-for="(article, i) in articles">
 			<div id="namepic">
 				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">
+				<form @submit.prevent="onReadMessage($event, article.article_id)">
+					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
+				</form>
 				<h5>{{ article.employee_id }}</h5>
 				<p>{{ article.article_id }}</p>
 				<p>{{ article.createdAt }}</p>
@@ -56,6 +59,31 @@ export default {
 			.catch(e => {
 				console.log(e);
 			});
+		},
+		onReadMessage(event, article_id) {
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");
+			console.log("event", event);
+			console.log("article_id", article_id);
+			axios.post(
+				"http://localhost:3000/api/readmessages/" + employee_id,
+				{
+					article_id: article_id ,
+					employee_id: employee_id,
+				},
+				{
+            headers: {
+				Authorization: token,
+            },
+				}
+			)
+			.then((response) => {
+				this.$emit("post-sent", response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+			event.target.reset();
 		},
 		
 	},
