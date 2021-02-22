@@ -2,13 +2,18 @@ const Sequelize = require('sequelize');
 const connection = require('../connection');
 
 const readmessages = connection.define("readmessages", {
-    article_id: {
-        type: Sequelize.INTEGER,
+	messages_id:	{
+        type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
         primaryKey: true,
+        allowNull: false,
+		autoIncrement: true
+    },
+    article_id: {
+        type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
         allowNull: false
     },
 	employee_id: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER(11).UNSIGNED.ZEROFILL,
         allowNull: false
     }
 },  {

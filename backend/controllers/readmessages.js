@@ -15,7 +15,7 @@ exports.readmessage = async (req, res) => {
 		}
 	).catch(
 		(error) => {
-			console.log("first 500");
+			console.log("first 500 FROM READ MESSAGES");
 			res.status(500).json({
 				error: error
 			});			  

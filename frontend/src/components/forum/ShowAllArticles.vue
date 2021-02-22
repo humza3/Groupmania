@@ -65,6 +65,7 @@ export default {
 			const token = window.localStorage.getItem("token");
 			console.log("event", event);
 			console.log("article_id", article_id);
+			console.log("employee_id", article_id);
 			axios.post(
 				"http://localhost:3000/api/readmessages/" + employee_id,
 				{
