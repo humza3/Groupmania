@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require('../middleware/auth');
+const multer = require('../middleware/multer');
+
 const articlesCtrl = require('../controllers/article');
 
-router.post('/articles', auth, articlesCtrl.createArticle);
+router.post('/articles', auth, multer, articlesCtrl.createArticle);
 router.get('/articles', auth, articlesCtrl.getAllArticles);
 router.get('/articles/profile/:employee_id', auth, articlesCtrl.getLastArticles);
 router.get('/articles/:article_id', auth, articlesCtrl.getOneArticle);

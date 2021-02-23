@@ -3,10 +3,13 @@ const user = require('../models/user');
 const comment = require('../models/comment');
 
 exports.createArticle = async (req, res) => {
+	const url = req.protocol + '://' + req.get('host');
+	console.log("req.file:", req);
+	console.log("req.file:", req.file);
 	const artResults = new Article({
 		content: req.body.content,
 		title: req.body.title,
-		link: req.body.link,
+		link: url + '/images/' + req.file.filename,
 		employee_id: req.body.employee_id,
 	});
 	console.log("create article: ", artResults);
