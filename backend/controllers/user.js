@@ -73,7 +73,7 @@ exports.login = (req, res) => {
 exports.getUserAccount = (req, res) => {
   User.findOne({
 		where: {
-			employee_id: req.params.id
+			employee_id: req.params.employee_id
 		},
     })
     .then((user) => {
@@ -121,16 +121,16 @@ exports.modifyUser = (req, res, next) => {
 
 
 
-exports.deleteUserAccount = (req, res) => {
-  User.findOne({
-      where: {
-        userId: req.params.id
-      },
-    })
-    .then((user) => {
-      user.destroy();
-    })
-    .catch(error => res.status(400).json({
-      error
-    }))
+exports.deleteUserAccount = (req, res) => {	
+	User.findOne({
+		where: {
+			employee_id: req.params.employee_id
+		},
+	})
+	.then((user) => {
+	  user.destroy();
+	})
+	.catch(error => res.status(400).json({
+	  error
+	}))
 };

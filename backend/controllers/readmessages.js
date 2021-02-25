@@ -22,3 +22,9 @@ exports.readmessage = async (req, res) => {
 		}
 	);
 };
+
+exports.getOneReadmessage = (req, res) => {
+    readmessagesmodel.findOne({ where: {employee_id: req.params.employee_id, article_id: req.params.article_id}})
+    .then((read) => res.status(200).json({read}))
+    .catch((error) => res.status(503).json({error}))
+}
