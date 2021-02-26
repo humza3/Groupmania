@@ -6,8 +6,8 @@
 		<label for="content">Share your thoughts</label>
 		<textarea id="content" placeholder="Write your message" type="text" v-model="content" name="content" aria-label="Write your message" rows=5 />
 		<br />
-		<label for="link">Share a image</label>
-		<input id="link" placeholder="share a image" type="file" ref="link" @change="onSelect" aria-label="share a image" />  
+		<label for="file">Share a image</label>
+		<input id="file" placeholder="share a image" type="file" ref="file" @change="onSelect" aria-label="share a image" />  
 		<br />
 		<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
 	</form>
@@ -21,13 +21,13 @@ export default {
     return {
       title: "",
       content: "",
-      link: "",
+      file: "",
     };
   },
   methods: {
 	onSelect(event) {
-		this.link = event.target.files[0];
-		console.log("what is frontend this.link?", this.link);
+		this.file = event.target.files[0];
+		console.log("what is frontend this.file?", this.file);
 	},
     async onSubmit(event) {
       const employee_id = localStorage.getItem("employee_id");
@@ -37,7 +37,7 @@ export default {
           {
             title: this.title,
             content: this.content,
-            link: this.link,
+            file: this.file,
             employee_id: employee_id,
           },
           {

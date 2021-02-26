@@ -19,6 +19,9 @@
 		</div>	
 	</div>
 	<div id="recent-posts">
+		<form id="prof-form" @submit.prevent="onDeleteAccount">
+			<button id="deleteAccount" type="submit">Delete Account</button>
+		</form>
 		<ShowLastArticles />
 	</div>
   </div>
@@ -80,6 +83,25 @@ export default {
 			});
 			event.target.reset();
 		},
+		onDeleteAccount() {
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");
+			const url = "http://localhost:3000/api/auth/users/" + employee_id;
+			axios.delete(url, 
+				{
+					employee_id: this.employee_id,
+				},
+				{
+					headers: {
+						Authorization: token,
+					}
+				},
+			).then(function (response) {
+				console.log(response)
+			}).catch(function (error) {
+				console.log(error)
+			})
+		}
 	},
 	mounted() {
 		this.retrieveUsers();

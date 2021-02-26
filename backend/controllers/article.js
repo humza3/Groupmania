@@ -5,11 +5,11 @@ const comment = require('../models/comment');
 exports.createArticle = async (req, res) => {
 	const url = req.protocol + '://' + req.get('host');
 	console.log("req.file:", req);
-	console.log("req.file:", req.file);
+	console.log("req.file:", req.body.file.filename);
 	const artResults = new Article({
 		content: req.body.content,
 		title: req.body.title,
-		link: url + '/images/' + req.file.filename,
+		link: url + '/assets/' + req.body.file.filename,
 		employee_id: req.body.employee_id,
 	});
 	console.log("create article: ", artResults);

@@ -7,6 +7,7 @@
 					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
 				</form>
 				<h5>{{ article.employee_id }}</h5>
+				<div v:on="readOrUnread($event, article.article_id)"></div>
 				<p>{{ article.article_id }}</p>
 				<p>{{ article.createdAt }}</p>
 			</div>
@@ -41,6 +42,7 @@ export default {
 	data() {		
 		return {
 				articles: [],
+				readmessages: [],
 		};
 	},
 	methods: {
@@ -54,7 +56,6 @@ export default {
 			})
 			.then(response => {
 				this.articles = response.data.articles; // JSON are parsed automatically.
-				console.log(response.data);
 			})
 			.catch(e => {
 				console.log(e);
@@ -86,10 +87,36 @@ export default {
 			});
 			event.target.reset();
 		},
+		readOrUnread(event, article_id) {
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");
+			console.log("event", event);
+			console.log("article_id", article_id);
+			console.log("employee_id", article_id);
+			axios
+			.get("http://localhost:3000/api/readmessages/" + employee_id, {
+				params: {
+					article_id: article_id ,
+					employee_id: employee_id,
+				},
+				headers: {
+					Authorization: token,
+				},
+			})
+			.then(response => {
+				this.readmessages = response.data.readmessages; // JSON are parsed automatically.
+				console.log("readmessages:", response.data);
+			})
+			.catch(e => {
+				console.log(e);
+			});
+			event.target.reset();
+		},
 		
 	},
 	mounted() {
 		this.retrieveArticles();
+		this.readOrUnread();
 	},	
 }
 </script>
