@@ -1,15 +1,12 @@
 const Article = require('../models/article');
-const user = require('../models/user');
-const comment = require('../models/comment');
 
 exports.createArticle = async (req, res) => {
 	const url = req.protocol + '://' + req.get('host');
-	console.log("req.file:", req);
-	console.log("req.file:", req.body.file.filename);
+	console.log("req.file", req.file);
 	const artResults = new Article({
 		content: req.body.content,
 		title: req.body.title,
-		link: url + '/assets/' + req.body.file.filename,
+		link: url + '/images/' + req.body.file.filename,
 		employee_id: req.body.employee_id,
 	});
 	console.log("create article: ", artResults);

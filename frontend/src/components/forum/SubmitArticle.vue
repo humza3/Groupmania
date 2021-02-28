@@ -1,5 +1,5 @@
 <template>
-	<form @submit.prevent="onSubmit">
+	<form enctype="multipart/form-data" method="post" @submit.prevent="onSubmit">
 		<label for="title">Title of Post</label>
 		<input id="title" placeholder="title of your post" type="text" v-model="title" name="title" />
 		<br />
@@ -30,21 +30,22 @@ export default {
 		console.log("what is frontend this.file?", this.file);
 	},
     async onSubmit(event) {
-      const employee_id = localStorage.getItem("employee_id");
-      const token = window.localStorage.getItem("token");
-      axios.post(
-          "http://localhost:3000/api/articles",
-          {
-            title: this.title,
-            content: this.content,
-            file: this.file,
-            employee_id: employee_id,
-          },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
+		const employee_id = localStorage.getItem("employee_id");
+		const token = window.localStorage.getItem("token");
+		console.log("inside second function",this.file);
+		axios.post(
+			"http://localhost:3000/api/articles",
+			{
+				title: this.title,
+				content: this.content,
+				file: this.file,
+				employee_id: employee_id,
+			},
+			{
+			headers: {
+				Authorization: token,
+			},
+			}
         )
         .then((response) => {
           this.$emit("post-sent", response.data);
