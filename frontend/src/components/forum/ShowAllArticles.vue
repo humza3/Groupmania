@@ -6,7 +6,7 @@
 				<form @submit.prevent="onReadMessage($event, article.article_id)">
 					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
 				</form>
-				<h5>{{ article.employee_id }}</h5>
+				<h5>{{ article.name }}</h5>
 				<div v:on="readOrUnread($event, article.article_id)"></div>
 				<p>{{ article.article_id }}</p>
 				<p>{{ article.createdAt }}</p>

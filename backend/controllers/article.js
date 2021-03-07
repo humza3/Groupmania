@@ -1,30 +1,42 @@
 const Article = require('../models/article');
+const User = require('../models/user');
 
 exports.createArticle = async (req, res) => {
-	const url = req.protocol + '://' + req.get('host');
+	const url = req.protocol + '://' + req.get('host');	
 	console.log("req.file", req.file);
-	const artResults = new Article({
-		content: req.body.content,
-		title: req.body.title,
-		link: url + '/images/' + req.body.file.filename,
-		employee_id: req.body.employee_id,
-	});
-	console.log("create article: ", artResults);
-	artResults.save().then(
-		() => {
-			res.status(201).json({
-			message: 'Post added successfully!'
-			//create article table
-		  });
-		}
-	).catch(
+	console.log("user:", User.firstname);
+	console.log("employee_id: req.body.employee_id:", req.body.employee_id);
+	User.findOne({where: {employee_id: req.body.employee_id}}).then((user) => {
+			const article = new Article({
+				content: req.body.content,
+				title: req.body.title,
+				link: url + '/images/' + req.body.file.filename,
+				name: user.firstname + ' ' + user.lastname,
+				employee_id: req.body.employee_id,
+			});
+		article.save().then(
+			() => {
+				res.status(201).json({
+				message: 'Post added successfully!'
+				//create article table
+			  });
+			}
+		).catch(
+			(error) => {
+				console.log("first 500");
+				res.status(500).json({
+					error: error
+				});			  
+			}
+		)
+	}).catch(
 		(error) => {
-			console.log("first 500");
+			console.log("first user 500");
 			res.status(500).json({
 				error: error
 			});			  
 		}
-	);
+	)
 };
 
 exports.getAllArticles = (req, res) => {

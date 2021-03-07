@@ -24,6 +24,10 @@ const article = connection.define("articles", {
       type: Sequelize.STRING(150),
       allowNull: true,
     },
+	name: {
+      type: Sequelize.STRING(250),
+      allowNull: true,
+    },	
 	createdAt: {
       type: Sequelize.DATE,
 	  defaultValue: Sequelize.NOW,
