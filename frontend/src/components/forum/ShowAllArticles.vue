@@ -14,7 +14,7 @@
 			<div id="articlepost">
 				<h5>{{ article.title }}</h5>
 				<p>{{ article.content }}</p>
-				<img src="{{ article.link }}" id="iage" alt="iage"</p>
+				<img :src="article.link" id="iage" alt="iage">
 			</div>
 		</div>	
 		<div class="article">
