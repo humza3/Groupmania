@@ -14,7 +14,7 @@
 			<div id="articlepost">
 				<h5>{{ article.title }}</h5>
 				<p>{{ article.content }}</p>
-				<p>{{ article.link }}</p>
+				<img src="{{ article.link }}" id="iage" alt="iage"</p>
 			</div>
 		</div>	
 		<div class="article">
@@ -92,11 +92,11 @@ export default {
 			const token = window.localStorage.getItem("token");
 			console.log("event", event);
 			console.log("article_id", article_id);
-			console.log("employee_id", article_id);
+			console.log("employee_id", employee_id);
 			axios
 			.get("http://localhost:3000/api/readmessages/" + employee_id, {
 				params: {
-					article_id: article_id ,
+					article_id: article_id,
 					employee_id: employee_id,
 				},
 				headers: {

@@ -2,17 +2,19 @@ const Article = require('../models/article');
 const User = require('../models/user');
 
 exports.createArticle = async (req, res) => {
-	const url = req.protocol + '://' + req.get('host');	
+	const url = req.protocol + '://' + req.get('host');
+	req.body.data = JSON.parse(req.body.data);
+	console.log("req.body", req.body)
 	console.log("req.file", req.file);
 	console.log("user:", User.firstname);
-	console.log("employee_id: req.body.employee_id:", req.body.employee_id);
-	User.findOne({where: {employee_id: req.body.employee_id}}).then((user) => {
+	console.log("employee_id: req.body.employee_id:", req.body.data.employee_id);
+	User.findOne({where: {employee_id: req.body.data.employee_id}}).then((user) => {
 			const article = new Article({
-				content: req.body.content,
-				title: req.body.title,
-				link: url + '/images/' + req.body.file.filename,
+				content: req.body.data.content,
+				title: req.body.data.title,
+				link: url + '/images/' + req.file.filename,
 				name: user.firstname + ' ' + user.lastname,
-				employee_id: req.body.employee_id,
+				employee_id: req.body.data.employee_id,
 			});
 		article.save().then(
 			() => {
@@ -40,7 +42,6 @@ exports.createArticle = async (req, res) => {
 };
 
 exports.getAllArticles = (req, res) => {
-	console.log("find all controller");
     Article.findAll({order: [
         ['createdAt', 'DESC']
       ]})
