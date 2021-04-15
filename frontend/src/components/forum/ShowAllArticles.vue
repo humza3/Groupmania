@@ -1,14 +1,18 @@
 <template>
 	<article>
+	
+				<div>{{readmessages}}</div>
 		<div class="article" :key="i" v-for="(article, i) in articles">
 			<div id="namepic">
 				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">
 				<form @submit.prevent="onReadMessage($event, article.article_id)">
 					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
 				</form>
-				<h5>{{ article.name }}</h5>
-				<div v:on="readOrUnread($event, article.article_id)"></div>
+				<h5>{{ article.name}}</h5>
 				<p>{{ article.article_id }}</p>
+				<p v-if="article.employee_id == employee_id">read</p>
+				<p v-else-if="searchForRead(article.article_id, employee_id, readmessages)">read</p>
+				<p v-else>unread</p>
 				<p>{{ article.createdAt }}</p>
 			</div>
 			<div id="articlepost">
@@ -43,6 +47,7 @@ export default {
 		return {
 				articles: [],
 				readmessages: [],
+				employee_id: localStorage.getItem("employee_id"),
 		};
 	},
 	methods: {
@@ -56,6 +61,7 @@ export default {
 			})
 			.then(response => {
 				this.articles = response.data.articles; // JSON are parsed automatically.
+				console.log("articles", this.articles);
 			})
 			.catch(e => {
 				console.log(e);
@@ -66,7 +72,7 @@ export default {
 			const token = window.localStorage.getItem("token");
 			console.log("event", event);
 			console.log("article_id", article_id);
-			console.log("employee_id", article_id);
+			console.log("employee_id", employee_id);
 			axios.post(
 				"http://localhost:3000/api/readmessages/" + employee_id,
 				{
@@ -87,30 +93,29 @@ export default {
 			});
 			event.target.reset();
 		},
-		readOrUnread(event, article_id) {
+		readOrUnread() {
 			const employee_id = localStorage.getItem("employee_id");
 			const token = window.localStorage.getItem("token");
-			console.log("event", event);
-			console.log("article_id", article_id);
-			console.log("employee_id", employee_id);
 			axios
 			.get("http://localhost:3000/api/readmessages/" + employee_id, {
-				params: {
-					article_id: article_id,
-					employee_id: employee_id,
-				},
-				headers: {
-					Authorization: token,
-				},
+					headers: {
+						Authorization: token,
+					},
 			})
 			.then(response => {
 				this.readmessages = response.data.readmessages; // JSON are parsed automatically.
-				console.log("readmessages:", response.data);
+				console.log("readmessages:", response.data.readmessages);
 			})
 			.catch(e => {
 				console.log(e);
 			});
-			event.target.reset();
+		},
+		searchForRead(article_id, employee_id, readmessages){
+			for (var i=0; i < readmessages.length; i++) {
+				if (readmessages[i].article_id == article_id && readmessages[i].employee_id == employee_id) {
+					return readmessages[i];
+				}
+			}
 		},
 		
 	},

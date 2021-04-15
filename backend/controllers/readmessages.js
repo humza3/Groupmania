@@ -24,7 +24,7 @@ exports.readmessage = async (req, res) => {
 };
 
 exports.getOneReadmessage = (req, res) => {
-    readmessagesmodel.findOne({ where: {employee_id: req.params.employee_id, article_id: req.params.article_id}})
-    .then((read) => res.status(200).json({read}))
+    readmessagesmodel.findAll({ where: {employee_id: req.params.employee_id}})
+    .then((readmessages) => res.status(200).json({readmessages}))
     .catch((error) => res.status(503).json({error}))
 }
