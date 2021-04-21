@@ -6,9 +6,14 @@
 			<router-link to="/profile">Profile</router-link>
 			<router-link to="/forum">Forum</router-link>
 		</div>
-		<div id="login">			
-			<router-link to="/login">Login</router-link><span v-if="isLoggedIn"> | <a @click="logout">Logout</a></span>/
-			<router-link to="/signup">Sign Up</router-link>
+		<div id="login">
+			<span v-if="isLoggedIn">
+				<a  @click="logout">Logout</a>
+			</span>
+			<span v-else>
+				<router-link to="/login" >Login</router-link>/ 
+				<router-link to="/signup">Sign Up</router-link>
+			</span>
 		</div>
 		<router-view/>
 		<div id="footer">

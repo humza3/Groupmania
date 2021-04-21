@@ -8,37 +8,70 @@ exports.createArticle = async (req, res) => {
 	console.log("req.file", req.file);
 	console.log("user:", User.firstname);
 	console.log("employee_id: req.body.employee_id:", req.body.data.employee_id);
-	User.findOne({where: {employee_id: req.body.data.employee_id}}).then((user) => {
-			const article = new Article({
-				content: req.body.data.content,
-				title: req.body.data.title,
-				link: url + '/images/' + req.file.filename,
-				name: user.firstname + ' ' + user.lastname,
-				employee_id: req.body.data.employee_id,
-			});
-		article.save().then(
-			() => {
-				res.status(201).json({
-				message: 'Post added successfully!'
-				//create article table
-			  });
-			}
-		).catch(
+	if(req.file){
+		User.findOne({where: {employee_id: req.body.data.employee_id}}).then((user) => {
+				const article = new Article({
+					content: req.body.data.content,
+					title: req.body.data.title,
+					link: url + '/images/' + req.file.filename,
+					name: user.firstname + ' ' + user.lastname,
+					employee_id: req.body.data.employee_id,
+				});
+			article.save().then(
+				() => {
+					res.status(201).json({
+					message: 'Post added successfully!'
+					//create article table
+				  });
+				}
+			).catch(
+				(error) => {
+					console.log("first 500");
+					res.status(500).json({
+						error: error
+					});			  
+				}
+			)
+		}).catch(
 			(error) => {
-				console.log("first 500");
+				console.log("first user 500");
 				res.status(500).json({
 					error: error
 				});			  
 			}
 		)
-	}).catch(
-		(error) => {
-			console.log("first user 500");
-			res.status(500).json({
-				error: error
-			});			  
-		}
-	)
+	}else {
+		User.findOne({where: {employee_id: req.body.data.employee_id}}).then((user) => {
+			const article = new Article({
+					content: req.body.data.content,
+					title: req.body.data.title,
+					name: user.firstname + ' ' + user.lastname,
+					employee_id: req.body.data.employee_id,
+				});
+			article.save().then(
+				() => {
+					res.status(201).json({
+					message: 'Post added successfully!'
+					//create article table
+				  });
+				}
+			).catch(
+				(error) => {
+					console.log("first 500");
+					res.status(500).json({
+						error: error
+					});			  
+				}
+			)
+		}).catch(
+			(error) => {
+				console.log("first user 500");
+				res.status(500).json({
+					error: error
+				});			  
+			}
+		)
+	}
 };
 
 exports.getAllArticles = (req, res) => {
