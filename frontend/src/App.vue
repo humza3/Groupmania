@@ -1,10 +1,16 @@
 <template>
 	<div id="app" class="app">
 		<div id="nav">
-			<router-link to="/">Home</router-link>
-			<router-link to="/about">About</router-link>
-			<router-link to="/profile">Profile</router-link>
-			<router-link to="/forum">Forum</router-link>
+			<span v-if="isLoggedIn">
+				<router-link to="/">Home</router-link>
+				<router-link to="/about">About</router-link>
+				<router-link to="/profile">Profile</router-link>
+				<router-link to="/forum">Forum</router-link>
+			</span>
+			<span v-else>			
+				<router-link to="/">Home</router-link>
+				<router-link to="/about">About</router-link>
+			</span>
 		</div>
 		<div id="login">
 			<span v-if="isLoggedIn">

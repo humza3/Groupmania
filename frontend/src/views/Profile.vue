@@ -19,9 +19,35 @@
 		</div>	
 	</div>
 	<div id="recent-posts">
-		<form id="prof-form" @submit.prevent="onDeleteAccount">
-			<button id="deleteAccount" type="submit">Delete Account</button>
-		</form>
+	<button type="button" class="btn" @click="showModal">Open Modal!</button>
+		<div class="modal-backdrop" v-show="isModalVisible">
+			<div class="modal">
+				<header class="modal-header">
+					<slot name="header">
+						This is the default title!
+					</slot>
+				<button type="button" class="btn-close" @click="closeModal">
+					x
+				</button>
+				</header>
+
+				<section class="modal-body">
+					<slot name="body">
+						This is the default body!
+					</slot>
+				</section>
+
+				<footer class="modal-footer">
+					<slot name="footer">
+						This is the default footer!
+					</slot>
+					<form id="prof-form" @submit.prevent="onDeleteAccount">
+						<button id="deleteAccount" type="submit">Delete Account</button>
+					</form>
+					<button type="button" class="btn-green" @click="closeModal">Close Modal</button>
+				</footer>
+			</div>
+		</div>
 		<ShowLastArticles />
 	</div>
   </div>
@@ -39,7 +65,11 @@ export default {
 			isHidden: false,
 			user: {},
 			profile: "",
+			isModalVisible: false,
 		};
+	},
+	computed:{
+		isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
 	},
 	methods: {
 		retrieveUsers() {			
@@ -83,6 +113,13 @@ export default {
 			});
 			event.target.reset();
 		},
+		showModal() {
+			this.isModalVisible = true;
+		},
+		closeModal() {
+			this.isModalVisible = false;
+			this.$emit('close');
+		},
 		onDeleteAccount() {
 			const employee_id = localStorage.getItem("employee_id");
 			const token = window.localStorage.getItem("token");
@@ -100,6 +137,10 @@ export default {
 				console.log(response)
 			}).catch(function (error) {
 				console.log(error)
+			})
+			this.$store.dispatch('logout')
+			.then(() => {
+				this.$router.push('/login')
 			})
 		}
 	},
@@ -161,5 +202,68 @@ export default {
 		grid-row: 2;
 		box-shadow: 10px 10px 20px #888888;		
 	}
+	.modal-backdrop {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background: #FFFFFF;
+    box-shadow: 2px 2px 20px 1px;
+    overflow-x: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-header,
+  .modal-footer {
+    padding: 15px;
+    display: flex;
+  }
+
+  .modal-header {
+    position: relative;
+    border-bottom: 1px solid #eeeeee;
+    color: #4AAE9B;
+    justify-content: space-between;
+  }
+
+  .modal-footer {
+    border-top: 1px solid #eeeeee;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  .modal-body {
+    position: relative;
+    padding: 20px 10px;
+  }
+
+  .btn-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #4AAE9B;
+    background: transparent;
+  }
+
+  .btn-green {
+    color: white;
+    background: #4AAE9B;
+    border: 1px solid #4AAE9B;
+    border-radius: 2px;
+  }
 	
 </style>
