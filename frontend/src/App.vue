@@ -81,7 +81,7 @@ router-view {
 	background-color: #EDFAFD; /* Black */
 	overflow-x: hidden; /* Disable horizontal scroll */
 	padding-top: 20px;
-
+	box-shadow: 1px 1px 15px #888888;
 	a {
 		padding: 6px 8px 6px 16px;
 		text-decoration: none;

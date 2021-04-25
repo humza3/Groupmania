@@ -4,7 +4,9 @@
 		<div id="recent-articles" :key="i" v-for="(article, i) in articles">	
 			<h3>{{ article.title }}</h3>
 			<p>{{ article.content }}</p>
-			<p>{{ article.link }}</p>
+			<span v-if="article.link">
+				<img :src="article.link" >
+			</span>
 		</div>
 	</div>
 </template>
@@ -46,9 +48,22 @@ export default {
 </script>
 
 <style>
-#recent-articles{
-		background-color: #F0F6F9;	
+	#recent-articles{
+		background-color: #b9d5e3;;
+		border-radius: 25px;
 		margin: 20px;
 		padding: 20px;
+		
+		
+	}
+	#recent-articles h3{
+		text-align: left;
+	}
+	#recent-articles p {
+		text-align: left;
+	}
+	#recent-articles img {
+		max-width:95%;
+		max-height:95%;
 	}
 </style>

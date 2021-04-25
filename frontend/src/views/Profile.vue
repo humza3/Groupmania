@@ -1,9 +1,30 @@
 <template>
-  <div class="profile">
-    <h1>This is a user profile page</h1>	
+  <div class="profile">	
 	<div id="profile-exerpt">
 		<img src="../assets/profile-pic.png" alt="Avatar">
 		<button variant="info" v-on:click="isHidden = true" class="mb-2" id="edit-prof" type="edit-prof" aria-label="Submit" value="edit-prof">Edit Profile</button>
+		<button type="button" class="btn" @click="showModal">Delete Account</button>
+		<div class="modal-backdrop" v-show="isModalVisible">
+			<div class="modal">
+				<header class="modal-header">
+					<button type="button" class="btn-close" @click="closeModal">
+						x
+					</button>
+				</header>
+				<section class="modal-body">
+					<slot name="body">
+						Are you sure you want to delete your acount? This cant be undone
+					</slot>
+				</section>
+
+				<footer class="modal-footer">
+					<form id="prof-form" @submit="onDeleteAccount">
+						<button id="deleteAccount" type="submit">Delete Account</button>
+					</form>
+					<button type="button" class="btn-green" @click="closeModal">Close</button>
+				</footer>
+			</div>
+		</div>
 		<h2>{{ user.firstname }} {{ user.lastname }}</h2>
 		<h5>{{ user.email }}</h5>
 		<h3>About Me:</h3>
@@ -11,7 +32,7 @@
 			<p>{{ user.profile }}</p>
 		</div>
 		<div id="prof-edit" v-show="isHidden" >
-			<form id="prof-form" @submit.prevent="onProfileSubmit">
+			<form id="prof-form" @submit="onProfileSubmit">
 				<textarea id="profile-text" placeholder="Write your message" type="text" v-model="profile" name="profile" aria-label="About you" rows=5 />
 				<button id="cancel-prof"  v-on:click="isHidden = false">Cancel</button>
 				<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
@@ -19,35 +40,6 @@
 		</div>	
 	</div>
 	<div id="recent-posts">
-	<button type="button" class="btn" @click="showModal">Open Modal!</button>
-		<div class="modal-backdrop" v-show="isModalVisible">
-			<div class="modal">
-				<header class="modal-header">
-					<slot name="header">
-						This is the default title!
-					</slot>
-				<button type="button" class="btn-close" @click="closeModal">
-					x
-				</button>
-				</header>
-
-				<section class="modal-body">
-					<slot name="body">
-						This is the default body!
-					</slot>
-				</section>
-
-				<footer class="modal-footer">
-					<slot name="footer">
-						This is the default footer!
-					</slot>
-					<form id="prof-form" @submit.prevent="onDeleteAccount">
-						<button id="deleteAccount" type="submit">Delete Account</button>
-					</form>
-					<button type="button" class="btn-green" @click="closeModal">Close Modal</button>
-				</footer>
-			</div>
-		</div>
 		<ShowLastArticles />
 	</div>
   </div>
@@ -90,28 +82,38 @@ export default {
 				console.log(e);
 			});
 		},
+		checkForm() {
+			if(!this.profile){
+				alert("Please enter a profile message")
+				return false
+			}else{
+				return true
+			}
+		},
 		onProfileSubmit(event) {
-			const employee_id = localStorage.getItem("employee_id");
-			const token = window.localStorage.getItem("token");
-			const url = "http://localhost:3000/api/auth/users/" + employee_id
-			axios.put(
-				url,
-				{
-					profile: this.profile,
-				},
-				{
-					headers: {
-						Authorization: token,
+			if (this.checkForm()) {
+				const employee_id = localStorage.getItem("employee_id");
+				const token = window.localStorage.getItem("token");
+				const url = "http://localhost:3000/api/auth/users/" + employee_id
+				axios.put(
+					url,
+					{
+						profile: this.profile,
 					},
-				}
-			)
-			.then((response) => {
-				console.log(response);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-			event.target.reset();
+					{
+						headers: {
+							Authorization: token,
+						},
+					}
+				)
+				.then((response) => {
+					console.log(response);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+				event.target.reset();
+			}
 		},
 		showModal() {
 			this.isModalVisible = true;
@@ -170,14 +172,23 @@ export default {
 		grid-column: 1/4;
 		grid-row: 2;
 		width:100%;
-		background-color: #F0F6F9;	
+		min-width: 100px;
+		background-color: #b9d5e3;
+		border-radius: 25px;
 		box-shadow: 10px 10px 20px #888888;
 		img {
+			border-radius: 25px 25px 0px 0px;
 			max-width:100%;
 			max-height:100%;
 		}
 		p{
 			padding:10px 50px;
+		}
+		h2{
+			word-wrap: break-word;
+		}
+		h5{
+			word-wrap: break-word;
 		}
 		
 	}
@@ -189,7 +200,9 @@ export default {
 		margin:0;
 		padding:0;
 	}
-
+	#profile-desc{
+		word-wrap: break-word;
+	}
 	#prof-content {
 		width: 100%;
 		-webkit-box-sizing: border-box;
@@ -200,6 +213,8 @@ export default {
 	#recent-posts {
 		grid-column: 4/11;
 		grid-row: 2;
+		border-radius: 25px;
+		background-color: #F0F6F9;
 		box-shadow: 10px 10px 20px #888888;		
 	}
 	.modal-backdrop {

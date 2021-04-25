@@ -1,5 +1,5 @@
 <template>
-	<form method="post" action="/images" @submit.prevent="onSubmit" enctype="multipart/form-data">
+	<form id="form" method="post" @submit.prevent="onSubmit" enctype="multipart/form-data">
 		<label for="title">Title of Post</label>
 		<input id="title" placeholder="title of your post" type="text" v-model="title" name="title" />
 		<br />
@@ -31,42 +31,57 @@ export default {
 		console.log("what is frontend this.file?", this.file);
 		console.log("what is frontend this.file.name?", this.file.name);
 	},
+	checkForm() {        
+		if (!this.title) {
+			alert('Enter a title before submitting!')
+			return false
+		}
+		if (this.title && this.content || this.title && this.file) {
+			return true
+		} else {
+			alert("Please either include a message or image")
+			return false
+		}
+	},
     async onSubmit(event) {
-		const employee_id = localStorage.getItem("employee_id");
-		const token = window.localStorage.getItem("token");
-		console.log("inside second function",this.file);
-		const fd = new FormData();
-		const data = {
-			title: this.title,
-			content: this.content,
-			file: this.file,
-			employee_id: employee_id,
-		};
-		fd.append("file", this.file);
-		fd.append("data", JSON.stringify(data));
-		axios.post(
-			"http://localhost:3000/api/articles",
-			fd,
-			{
-			headers: {
-				Authorization: token,
-			},
-			}
-        )
-        .then((response) => {
-          this.$emit("post-sent", response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      event.target.reset();
+		if (this.checkForm()) {
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");
+			console.log("inside second function",this.file);
+			const fd = new FormData();
+			const data = {
+				title: this.title,
+				content: this.content,
+				file: this.file,
+				employee_id: employee_id,
+			};
+			fd.append("file", this.file);
+			fd.append("data", JSON.stringify(data));
+			axios.post(
+				"http://localhost:3000/api/articles",
+				fd,
+				{
+				headers: {
+					Authorization: token,
+				},
+				}
+			)
+			.then((response) => {
+				this.$emit("post-sent", response.data);
+				window.location.reload();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+			event.target.reset();
+		}
     },
   },
 };
 </script>
 
 <style>
-form{
+#form{
 	margin-left: 160px;
 	padding: 0px 10px; 
 }

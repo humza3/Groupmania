@@ -31,7 +31,10 @@ export default {
         let password = this.password
         this.$store.dispatch('login', { email, password })
        .then(() => this.$router.push('/'))
-       .catch(err => console.log(err))
+       .catch((error) => {
+			console.log(error);
+			alert("This username and/or password is not correct");
+        })
       }
     }
 }

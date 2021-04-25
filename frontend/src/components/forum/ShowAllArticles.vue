@@ -1,40 +1,27 @@
 <template>
 	<article>
-	
-				<div>{{readmessages}}</div>
 		<div class="article" :key="i" v-for="(article, i) in articles">
 			<div id="namepic">
-				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">
-				<form @submit.prevent="onReadMessage($event, article.article_id)">
-					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
-				</form>
+				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">				
+				<p>{{ article.article_id }}</p>				
 				<h5>{{ article.name}}</h5>
-				<p>{{ article.article_id }}</p>
-				<p v-if="article.employee_id == employee_id">read</p>
-				<p v-else-if="searchForRead(article.article_id, employee_id, readmessages)">read</p>
-				<p v-else>unread</p>
-				<p>{{ article.createdAt }}</p>
+				<p>{{  dateGmt(article.createdAt) }}</p>
+				
+				<span v-if="article.employee_id == employee_id">read</span>
+				<span v-else-if="searchForRead(article.article_id, employee_id, readmessages)">read</span>
+				<span v-else>
+				<form @submit="onReadMessage($event, article.article_id)">
+					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Read Message</button>
+				</form>
+				<p>unread</p>
+				</span>
 			</div>
 			<div id="articlepost">
-				<h5>{{ article.title }}</h5>
+				<h4>{{ article.title }}</h4>
 				<p>{{ article.content }}</p>
-				<img :src="article.link" id="iage" alt="iage">
-			</div>
-		</div>	
-		<div class="article">
-			<div id="namepic">
-				<img src="@/assets/profile-pic.png" id="avatar" alt="Avatar">
-				<h5>John Doe</h5>
-			</div>
-			<div id="articlepost">
-				<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames 
-				ac turpis egestas. Phasellus hendrerit elementum tristique. Aliquam finibus sed
-				mauris a placerat. Nam consectetur rhoncus enim, feugiat varius nulla pretium ut.
-				Aliquam mollis vestibulum metus quis faucibus. Curabitur aliquet ut ex nec hendrerit.
-				Proin egestas nec metus sed interdum. Maecenas id nunc bibendum, tempus ex eget, egestas
-				velit. Etiam lobortis non orci vel accumsan. Sed ornare nisi non nisi placerat mattis.
-				Aliquam pulvinar urna mi, sit amet tincidunt elit auctor sed. Curabitur dapibus magna
-				purus, eu auctor ligula aliquam at.</p>
+				<span v-if="article.link">
+					<img :src="article.link" id="iage" alt="iage">
+				</span>
 			</div>
 		</div>	
 	</article>
@@ -117,6 +104,11 @@ export default {
 				}
 			}
 		},
+		dateGmt(utc_date) {
+			var date = new Date(utc_date);
+			return date.toDateString();
+		
+		}
 		
 	},
 	mounted() {
@@ -136,25 +128,50 @@ article {
 	display: grid;
 	margin: 10px;
 	grid-template-columns: repeat(30, 2fr);
+	border-radius: 25px;
+	box-shadow: 10px 10px 20px #888888;
 }
 #namepic {
 	grid-column:1;
 	grid-row: 1;
 	width: 100%;
-	height: auto;
-	background-color:#111;
+	min-width: 150px;
+	border-radius: 25px 0px 0px 25px;
+	background-color:#b9d5e3;
 	img {
+		border-radius: 25px 0px 0px 0px;
 		max-width:100%;
 		max-height:100%;
 	}
+	padding-bottom: 10px;
 }
 #articlepost {
 	grid-column:2/31;
 	grid-row: 1;
-	background-color:grey;
+	background-color:#F0F6F9;
+	border-radius: 0px 25px 25px 0px;
+	padding:2px;
+	min-width: 200px;
+	text-align: left;
+	p {		
+		margin-left: 5px;
+		word-wrap: break-word;
+	}
+	h4 {		
+		margin-left: 5px;
+		word-wrap: break-word;
+	}
+	img {
+		margin-left: 5px;
+		max-width:95%;
+		max-height:95%;
+	}
 }
 #content{
-width: 100%;
+	width: 100%;
+}
+form{
+	margin: 0px;
 }
 
 </style>

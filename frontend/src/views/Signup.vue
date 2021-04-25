@@ -1,6 +1,6 @@
 <template>
   <div class="registration">
-    <h1>This is a sign up page hello</h1>
+    <h1>Sign up here!</h1>
 	<form @submit.prevent="signup">
 		<div class="container">
 			<label for="email"><b>Email Address: </b></label>
@@ -29,6 +29,7 @@ export default {
     data: function () {
         return {
 			email: "",
+			reg: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 			lastname: "",
 			firstname: "",
 			password: "",
@@ -36,18 +37,47 @@ export default {
         }; 
 	},	
     methods: {
-      signup(e) {
-		e.preventDefault();	
-        let data = {
-			email: this.email,
-			lastname: this.lastname,
-			firstname: this.firstname,
-			password: this.password
-        }			
-        this.$store.dispatch('signup', data)
-       .then(() => this.$router.push('/'))
-       .catch(err => console.log(err))
-      }
+		checkForm(e) {        
+			if (!this.reg.test(this.email)) {
+				alert('Enter a valid email!')
+				return false
+			}
+			if (!this.lastname) {
+				alert('Name required!')
+				return false
+			}
+			if (!this.firstname) {
+				alert('Last name required!')
+				return false
+			}
+			if (!this.password) {
+				alert('Password Required')
+				return false
+			}
+			if(this.password !== this.repassword){
+				alert('Passwords must be the same')
+				return false
+			}
+			if (this.email && this.lastname && this.firstname && this.password) {
+				return true
+			}
+			e.preventDefault()   
+        },
+		
+		signup() {
+			if (this.checkForm()) {
+				let data = {
+					email: this.email,
+					lastname: this.lastname,
+					firstname: this.firstname,
+					password: this.password,
+					repassword: this.repassword
+				}			
+				this.$store.dispatch('signup', data)
+				.then(() => this.$router.push('/'))
+				.catch(err => console.log(err), alert("This email has already been used") )
+			}
+		}
     }
 }
 </script>
