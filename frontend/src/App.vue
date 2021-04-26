@@ -3,13 +3,11 @@
 		<div id="nav">
 			<span v-if="isLoggedIn">
 				<router-link to="/">Home</router-link>
-				<router-link to="/about">About</router-link>
 				<router-link to="/profile">Profile</router-link>
 				<router-link to="/forum">Forum</router-link>
 			</span>
 			<span v-else>			
 				<router-link to="/">Home</router-link>
-				<router-link to="/about">About</router-link>
 			</span>
 		</div>
 		<div id="login">
@@ -44,12 +42,24 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+	position: relative;
+	min-height: 100vh;	
+}
 router-view {
 	margin-left: 160px;
 	padding: 0px 10px;
+	padding-bottom: 2.5rem;    /* Footer height */
+}
+#footer{	
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2.5rem;    
 }
 #login {
 	position: absolute;
+	z-index:5;
 	top: 8px;
 	right: 16px;
 	font-size: 18px;
@@ -73,7 +83,8 @@ router-view {
 }
 #nav {
 	height: 100%; /* Full-height: remove this if you want "auto" height */
-	width: 160px; /* Set the width of the sidebar */
+	width: 160px; /* Set the width of the sidebar */	
+	z-index:5;
 	position: fixed; /* Fixed Sidebar (stay in place on scroll) */
 	z-index: 1; /* Stay on top */
 	top: 0; /* Stay at the top */
@@ -93,6 +104,27 @@ router-view {
 			color: #42b983;
 		}
 	}
+}
+button{
+	display:inline-block;
+	padding:0.3em 1.2em;
+	margin:0 0.3em 0.3em 0;
+	border-radius:2em;
+	text-decoration:none;
+	font-family:'Roboto',sans-serif;
+	font-weight:300;
+	color:#FFFFFF;
+	background-color:#81959e;
+	text-align:center;
+	transition: all 0.2s;
+}
+button:hover{
+	background-color:#42b983;
+}
+button:active {
+  background-color: #4095c6;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
 }
 
 @media screen and (max-height: 450px) {

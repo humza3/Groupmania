@@ -123,6 +123,7 @@ export default {
 article {
 	margin-left: 160px;
 	padding: 0px 10px;
+	padding-top:50px;
 }
 .article {	
 	display: grid;

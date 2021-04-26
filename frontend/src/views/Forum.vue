@@ -1,6 +1,5 @@
 <template>
 	<div class="forum">
-		<h1>Forum</h1>
 		<ShowAllArticles />
 		<SubmitArticle />
 	</div>
@@ -19,7 +18,9 @@ export default {
 
 <style lang="scss">
 .forum {
+	position: relative;
 	margin-left: 160px;
+	margin-top: 50px;
 	padding: 0px 10px;
 
 }

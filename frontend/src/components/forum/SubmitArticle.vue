@@ -83,6 +83,9 @@ export default {
 <style>
 #form{
 	margin-left: 160px;
+	margin-top: 20px;
+	height:400px;
 	padding: 0px 10px; 
 }
+
 </style>

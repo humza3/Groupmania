@@ -82,38 +82,28 @@ export default {
 				console.log(e);
 			});
 		},
-		checkForm() {
-			if(!this.profile){
-				alert("Please enter a profile message")
-				return false
-			}else{
-				return true
-			}
-		},
 		onProfileSubmit(event) {
-			if (this.checkForm()) {
-				const employee_id = localStorage.getItem("employee_id");
-				const token = window.localStorage.getItem("token");
-				const url = "http://localhost:3000/api/auth/users/" + employee_id
-				axios.put(
-					url,
-					{
-						profile: this.profile,
+			const employee_id = localStorage.getItem("employee_id");
+			const token = window.localStorage.getItem("token");
+			const url = "http://localhost:3000/api/auth/users/" + employee_id
+			axios.put(
+				url,
+				{
+					profile: this.profile,
+				},
+				{
+					headers: {
+						Authorization: token,
 					},
-					{
-						headers: {
-							Authorization: token,
-						},
-					}
-				)
-				.then((response) => {
-					console.log(response);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-				event.target.reset();
-			}
+				}
+			)
+			.then((response) => {
+				console.log(response);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+			event.target.reset();
 		},
 		showModal() {
 			this.isModalVisible = true;
@@ -162,6 +152,7 @@ export default {
 		padding: 0px 10px;
 		grid-template-columns: repeat(10, 1fr);	
 		grid-gap: 50px;
+		padding-bottom: 2.5rem;
 					
 	}
 	h1 {
