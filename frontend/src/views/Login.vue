@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <h1>This is a login page</h1>
+    <h1>Login</h1>
 	<form class="login" @submit.prevent="login">
 		<div class="container">
 			<label for="email"><b>Email Address: </b></label>
@@ -59,5 +59,14 @@ form label {
     width: 10em;
     min-height: 2em;
     align-self: center;
+}
+@media screen and (max-width: 1200px) {
+		.login h1{
+			font-size:28px;
+			font-weight:500;
+		}
+		.login{
+			min-width:660px;
+		}
 }
 </style>

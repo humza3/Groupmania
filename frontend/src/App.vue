@@ -59,7 +59,7 @@ router-view {
 }
 #login {
 	position: absolute;
-	z-index:5;
+	z-index:4;
 	top: 8px;
 	right: 16px;
 	font-size: 18px;
@@ -130,6 +130,24 @@ button:active {
 @media screen and (max-height: 450px) {
 	#nav {padding-top: 15px;}
 	#nav a {font-size: 18px;}
+}
+
+@media screen and (max-width: 1200px) {
+	#login {
+	position: absolute;
+	z-index:5;
+	top: 8px;
+	right: -10px;
+	a {
+		padding: 6px 8px 6px 0px;
+		text-decoration: none;
+		font-size: 18px;
+		color: #818181;
+		&.router-link-exact-active {
+			color: #42b983;
+		}
+	}
+}
 }
 </style>
 

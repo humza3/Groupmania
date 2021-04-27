@@ -1,47 +1,47 @@
 <template>
   <div class="profile">	
-	<div id="profile-exerpt">
-		<img src="../assets/profile-pic.png" alt="Avatar">
-		<button variant="info" v-on:click="isHidden = true" class="mb-2" id="edit-prof" type="edit-prof" aria-label="Submit" value="edit-prof">Edit Profile</button>
-		<button type="button" class="btn" @click="showModal">Delete Account</button>
-		<div class="modal-backdrop" v-show="isModalVisible">
-			<div class="modal">
-				<header class="modal-header">
-					<button type="button" class="btn-close" @click="closeModal">
-						x
-					</button>
-				</header>
-				<section class="modal-body">
-					<slot name="body">
-						Are you sure you want to delete your acount? This cant be undone
-					</slot>
-				</section>
+		<div id="profile-exerpt">
+			<img src="../assets/profile-pic.png" alt="Avatar">
+			<button variant="info" v-on:click="isHidden = true" class="mb-2" id="edit-prof" type="edit-prof" aria-label="Submit" value="edit-prof">Edit Profile</button>
+			<button type="button" class="btn" @click="showModal">Delete Account</button>
+			<div class="modal-backdrop" v-show="isModalVisible">
+				<div class="modal">
+					<header class="modal-header">
+						<button type="button" @click="closeModal">
+							x
+						</button>
+					</header>
+					<section class="modal-body">
+						<slot name="body">
+							Are you sure you want to delete your account? This cant be undone
+						</slot>
+					</section>
 
-				<footer class="modal-footer">
-					<form id="prof-form" @submit="onDeleteAccount">
-						<button id="deleteAccount" type="submit">Delete Account</button>
-					</form>
-					<button type="button" class="btn-green" @click="closeModal">Close</button>
-				</footer>
+					<footer class="modal-footer">
+						<form id="prof-form" @submit="onDeleteAccount">
+							<button id="deleteAccount" type="submit">Delete Account</button>
+						</form>
+						<button type="button" @click="closeModal">Close</button>
+					</footer>
+				</div>
 			</div>
+			<h2>{{ user.firstname }} {{ user.lastname }}</h2>
+			<h5>{{ user.email }}</h5>
+			<h3>About Me:</h3>
+			<div id="profile-desc">
+				<p>{{ user.profile }}</p>
+			</div>
+			<div id="prof-edit" v-show="isHidden" >
+				<form id="prof-form" @submit="onProfileSubmit">
+					<textarea id="profile-text" placeholder="Write your message" type="text" v-model="profile" name="profile" aria-label="About you" rows=5 />
+					<button id="cancel-prof"  v-on:click="isHidden = false">Cancel</button>
+					<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
+				</form>
+			</div>	
 		</div>
-		<h2>{{ user.firstname }} {{ user.lastname }}</h2>
-		<h5>{{ user.email }}</h5>
-		<h3>About Me:</h3>
-		<div id="profile-desc">
-			<p>{{ user.profile }}</p>
+		<div id="recent-posts">
+			<ShowLastArticles />
 		</div>
-		<div id="prof-edit" v-show="isHidden" >
-			<form id="prof-form" @submit="onProfileSubmit">
-				<textarea id="profile-text" placeholder="Write your message" type="text" v-model="profile" name="profile" aria-label="About you" rows=5 />
-				<button id="cancel-prof"  v-on:click="isHidden = false">Cancel</button>
-				<button variant="info" class="mb-2" type="submit" aria-label="Submit" value="Submit">Submit</button>
-			</form>
-		</div>	
-	</div>
-	<div id="recent-posts">
-		<ShowLastArticles />
-	</div>
   </div>
 </template>
 <script>
@@ -150,6 +150,7 @@ export default {
 		display: grid;	
 		margin-left: 160px;
 		padding: 0px 10px;
+		min-width:650px;
 		grid-template-columns: repeat(10, 1fr);	
 		grid-gap: 50px;
 		padding-bottom: 2.5rem;
@@ -163,7 +164,7 @@ export default {
 		grid-column: 1/4;
 		grid-row: 2;
 		width:100%;
-		min-width: 100px;
+		min-width: 200px;
 		background-color: #b9d5e3;
 		border-radius: 25px;
 		box-shadow: 10px 10px 20px #888888;
@@ -205,6 +206,7 @@ export default {
 		grid-column: 4/11;
 		grid-row: 2;
 		border-radius: 25px;
+		min-width:450px;
 		background-color: #F0F6F9;
 		box-shadow: 10px 10px 20px #888888;		
 	}
@@ -224,6 +226,7 @@ export default {
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
     overflow-x: auto;
+	margin-left: 162px;
     display: flex;
     flex-direction: column;
   }
@@ -251,25 +254,12 @@ export default {
     position: relative;
     padding: 20px 10px;
   }
-
-  .btn-close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    border: none;
-    font-size: 20px;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    color: #4AAE9B;
-    background: transparent;
-  }
-
-  .btn-green {
-    color: white;
-    background: #4AAE9B;
-    border: 1px solid #4AAE9B;
-    border-radius: 2px;
-  }
+  
+  @media screen and (max-width: 1200px) {
+	.profile {
+		grid-gap: 32px;
+					
+	}
+}
 	
 </style>

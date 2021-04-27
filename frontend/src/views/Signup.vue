@@ -1,6 +1,6 @@
 <template>
   <div class="registration">
-    <h1>Sign up here!</h1>
+    <h1>Sign up</h1>
 	<form @submit.prevent="signup">
 		<div class="container">
 			<label for="email"><b>Email Address: </b></label>
@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style lang="scss">
+.registration{
+	
+}
 form {
     display: flex;
     flex-direction: column;
@@ -101,5 +104,15 @@ form label {
     width: 10em;
     min-height: 2em;
     align-self: center;
+}
+
+@media screen and (max-width: 1200px) {
+		.registration h1{
+			font-size:28px;
+			font-weight:500;
+		}
+		.registration{
+			min-width:660px;
+		}
 }
 </style>
