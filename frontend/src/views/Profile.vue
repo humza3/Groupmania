@@ -150,7 +150,7 @@ export default {
 		display: grid;	
 		margin-left: 160px;
 		padding: 0px 10px;
-		min-width:650px;
+		min-width:350px;
 		grid-template-columns: repeat(10, 1fr);	
 		grid-gap: 50px;
 		padding-bottom: 2.5rem;
@@ -164,7 +164,7 @@ export default {
 		grid-column: 1/4;
 		grid-row: 2;
 		width:100%;
-		min-width: 200px;
+		min-width: 100px;
 		background-color: #b9d5e3;
 		border-radius: 25px;
 		box-shadow: 10px 10px 20px #888888;
@@ -206,7 +206,7 @@ export default {
 		grid-column: 4/11;
 		grid-row: 2;
 		border-radius: 25px;
-		min-width:450px;
+		min-width:200px;
 		background-color: #F0F6F9;
 		box-shadow: 10px 10px 20px #888888;		
 	}
@@ -257,8 +257,17 @@ export default {
   
   @media screen and (max-width: 1200px) {
 	.profile {
-		grid-gap: 32px;
-					
+		grid-gap: 32px;					
+	}
+	#profile-exerpt {
+		p{
+			padding:1px 5px;
+		}
+		
+	}
+	
+	#profile-desc{
+		font-size: 10px;
 	}
 }
 	

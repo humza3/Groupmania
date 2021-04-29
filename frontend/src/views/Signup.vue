@@ -16,7 +16,7 @@
 			<input type="Password" placeholder="Enter Password" id="password" v-model="password" name="password" required>
 			<br>
 			<label for="repassword"><b>Re-Enter Password: </b></label>
-			<input type="Password" placeholder="Enter Password" id="repassword" v-model="repassword" name="repassword" required>
+			<input type="Password" placeholder="Confirm Password" id="repassword" v-model="repassword" name="repassword" required>
 			<br>
 			<button type="submit" id="submit">Sign Up</button>    
 		</div>
@@ -71,11 +71,14 @@ export default {
 					lastname: this.lastname,
 					firstname: this.firstname,
 					password: this.password,
-					repassword: this.repassword
 				}			
 				this.$store.dispatch('signup', data)
 				.then(() => this.$router.push('/'))
-				.catch(err => console.log(err), alert("This email has already been used") )
+				.catch(function (error) {				
+				console.log("here", "here")
+				alert('This email does not exist');
+				console.log(error);
+			})
 			}
 		}
     }

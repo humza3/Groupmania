@@ -22,7 +22,7 @@ const user = connection.define('user', {
 		allowNull: false
 	},
 	password: {
-		type: Sequelize.STRING(100),
+		type: Sequelize.STRING(250),
 		allowNull: false
 	},
 	profile: {		
