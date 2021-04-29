@@ -87,7 +87,8 @@ export default {
 
 <style lang="scss">
 .registration{
-	
+	width:100%;
+	min-width:550px;
 }
 form {
     display: flex;
@@ -115,7 +116,10 @@ form label {
 			font-weight:500;
 		}
 		.registration{
-			min-width:660px;
+			min-width:600px;
+		}
+		form label {
+			font-size: 10px;
 		}
 }
 </style>
